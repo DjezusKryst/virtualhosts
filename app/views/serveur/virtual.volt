@@ -5,8 +5,8 @@
 
 {% if  q["table4"] is defined %}
 <div class="ui positive message">
-<h3> Liste des virtualhosts pour le serveur séléctionné </h3>
-  </div>
+{{ title1 }}
+</div>
   
 {{ q["table4"] }}
 {% else %}

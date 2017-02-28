@@ -72,7 +72,7 @@ class ServeurController extends ControllerBase{
 		$semantic=$this->semantic;
 		
 		$table=$semantic->htmlTable('table4',0,6);
-		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Modifier","Supprimer","Nombre Virtualhost(s)"]);
+		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Modifier virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
 		$i=0;
 				
 		foreach ($servers as $server){
@@ -313,8 +313,16 @@ class ServeurController extends ControllerBase{
 			
 				$table->setDefinition();
 				$i++;
+		
 			
 			}
+			$semantic=$this->semantic;
+			
+			$title=$semantic->htmlHeader("header1",2);
+			$title->asTitle("Liste des Virtualhost(s) pour :","Séléctionner un virtualhost pour le supprimer et modifier");
+			$this->view->setVar("title1", $title);
+			
+			
 			echo $table;
 			echo "<br/> <br/>";
 			$this->jquery->exec("$('#divAction .item').removeClass('active');",true);
@@ -385,12 +393,19 @@ class ServeurController extends ControllerBase{
 		$stypes = Stype::find();
 		$servers = Server::find();
 		
+		$semantic=$this->semantic;
+		
+		$title=$semantic->htmlHeader("header1",2);
+		$title->asTitle("Ajout du nouveau virtualhost :","Créer un nouveau virtualhost avec son nom et sa configuration");
+		$this->view->setVar("title1", $title);
+		
+		
 		$itemservers = array();
 		foreach($servers as $server) {
 			$itemservers[] = $server->getName();
 		}
-		
-		
+		 	
+		 	
 		$semantic=$this->semantic;
 		
 		$btnCancel = $semantic->htmlButton("btnCancel","Annuler","red");
@@ -408,10 +423,6 @@ class ServeurController extends ControllerBase{
 		$input2=$semantic->htmlInput("Configuration...");
 		$form->addInput("config")->getField()->labeledToCorner("asterisk","right");
 			
-		
-		
-		$form->addDropdown("server",$itemservers,"Nom du Serveurs : * ","Selectionner un nom de serveur ...",false);
-		
 		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmitvirtual", "frmUpdate","#divAction");
 		
 		

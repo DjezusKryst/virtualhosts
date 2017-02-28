@@ -1,6 +1,6 @@
 <div class="ui green segment">
     
-    <h3> Ajout du nouveau virtualhost : </h3>
+   {{ title1 }}
     {{ q["frmUpdate"] }}
     
 

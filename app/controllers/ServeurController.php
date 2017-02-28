@@ -38,6 +38,14 @@ class ServeurController extends ControllerBase{
 		$this->loadMenus();
 		$hosts=Host::find();
 		
+		
+		$semantic=$this->semantic;
+		
+		$title=$semantic->htmlHeader("header1",2);
+		$title->asTitle("Liste des machines","Séléctionner une machine pour visualiser la liste des serveurs installés");
+		$this->view->setVar("title1", $title);
+		
+		
 		$list=$this->semantic->htmlList("lst-hosts");
 		foreach ($hosts as $host){
 			$item=$list->addItem(["icon"=>"add","header"=>$host->getName(),"description"=>$host->getIpv4()]);
@@ -100,9 +108,8 @@ class ServeurController extends ControllerBase{
 		
 	
 		echo $table;
-		echo "<br/> <br/>";
 		
-		$test=$semantic->htmlButton("ajouter","Ajouter","black")->getOnClick("Serveur/vUpdate","#divAction")->setNegative();
+		$test=$semantic->htmlButton("ajouter","Ajouter un serveur","black")->getOnClick("Serveur/vUpdate","#divAction")->setNegative();
 		echo $test;
 		$this->jquery->exec("$('#lst-hosts .item').removeClass('active');",true);
 		$this->jquery->exec("$('[data-ajax=".$idHost."]').addClass('active');",true);
@@ -277,7 +284,7 @@ class ServeurController extends ControllerBase{
 		if($virtualhosts->count() == 0 ){
 			$semantic=$this->semantic;
 			
-			$ajoutervirtual=$semantic->htmlButton("ajoutervirtual","Ajouter","black")->getOnClick("Serveur/vUpdatevirtual","#divAction")->setNegative();
+			$ajoutervirtual=$semantic->htmlButton("ajoutervirtual","Ajouter un virtualhost","black")->getOnClick("Serveur/vUpdatevirtual","#divAction")->setNegative();
 			
 		}
 		
@@ -297,7 +304,7 @@ class ServeurController extends ControllerBase{
 			foreach ($virtualhosts as $virtualhost){
 				$btnConfigvirtual= $semantic->htmlButton("btnConfigvirtual-".$i,"Configurer","small green basic")->asIcon("edit")->getOnClick("Serveur/vChangevirtual/".$virtualhost->getId(),"#divAction");
 					
-				$ajoutervirtual=$semantic->htmlButton("ajoutervirtual","Ajouter","black")->getOnClick("Serveur/vUpdatevirtual","#divAction")->setNegative();
+				$ajoutervirtual=$semantic->htmlButton("ajoutervirtual","Ajouter un virtualhost","black")->getOnClick("Serveur/vUpdatevirtual","#divAction")->setNegative();
 					
 				$btnDelete = $semantic->htmlButton("btnDeleteVirtual-".$i,"Supprimer","small red")->asIcon("remove")->getOnClick("Serveur/vDeletevirtual/".$virtualhost->getId(),"#divAction");
 					

@@ -11,7 +11,7 @@
 {{ q["table4"] }}
 {% else %}
 <div class="ui positive message">
-<h3> Il n'existe pas de virtualhost actuellement pour ce serveur </h3>
+<h3> Il n'existe pas de virtualhost actuellement pour le serveur </h3>
   </div>
 <p>  Pas de virtualhost en ce moment .. </p>
 {% endif %}

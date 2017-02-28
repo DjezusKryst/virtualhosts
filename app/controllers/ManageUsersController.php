@@ -12,7 +12,7 @@ class ManageUsersController extends ControllerBase
     	$this->secondaryMenu($this->controller,$this->action);
     	$this->tools($this->controller,$this->action);
     	$semantic=$this->semantic;
-    	$semantic->htmlButton("addButton","Ajouter","button green")->getOnClick("ManageUsers/addUser","#divUser");   	 
+    	$semantic->htmlButton("addButton","Ajouter un utilisateur","button green")->getOnClick("ManageUsers/addUser","#divUser");   	 
     	$users=User::find();
     
 		$table=$this->semantic->htmlTable("dd",0,3);

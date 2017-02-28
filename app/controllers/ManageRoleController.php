@@ -12,7 +12,7 @@ class ManageRoleController extends ControllerBase
     	$this->secondaryMenu($this->controller,$this->action);
     	$this->tools($this->controller,$this->action);
     	$semantic=$this->semantic;
-    	$semantic->htmlButton("addButton","Ajouter","button green")->getOnClick("ManageRole/addRole","#divRole");   	 
+    	$semantic->htmlButton("addButton","Ajouter un rôle","button green")->getOnClick("ManageRole/addRole","#divRole");   	 
     	$roles=Role::find();
     	$users=User::find();
     

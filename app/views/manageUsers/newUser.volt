@@ -1,2 +1,2 @@
 </br>
-<h2>Ajout effectuée avec succès !</h2>
+<h2>Ajout effectué avec succès !</h2>

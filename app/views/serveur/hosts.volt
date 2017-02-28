@@ -1,15 +1,14 @@
 <div class="header">
+
+
     <div id = "tab">
-    {{ title1 }}
-        <div class="ui icon message">
-  <i class="info icon"></i>
-  <div class="content">
-    <div class="header">
-      ATTENTION
-    </div>
-    <p>La suppression d'un serveur dans lequelle sont présents de(s) virtualhost(s) </p>
-  </div>
-</div>
+        <div class="ui positive message">
+        <h3> Liste des machines : </h3>
+        
+          <p>Séléctionner une machine pour visualiser la liste des serveurs installés. </p>
+             <p>Vous ne pouvez pas supprimer un serveur temp que tout ses virtualhosts soit supprimés </p>
+         
+          </div> <br />
         
         
         {{ q["lst-hosts"] }}

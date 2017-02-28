@@ -44,12 +44,14 @@ class ManageRoleController extends ControllerBase
     		$semantic=$this->semantic;	
     		
 			$roleEdit=Role::findFirst(["name='$a'"]);
-	
+				
 			$form=$semantic->htmlForm("frmEdit");
+			$form->setValidationParams(["on"=>"blur","inline"=>true]);
 			$form->addInput("id","","hidden",$roleEdit->getId());
-			$form->addInput("name","Nom","text",$a);
+			$form->addInput("name","Nom","text",$a)->addRule(["empty","Ce champ est obligatoire"]);
 			
-			$form->addButton("submit","envoyer","button green")->postFormOnClick("ManageRole/majRole","frmEdit","#result");
+			$form->addButton("submit","Modifier le rôle","button green")->postFormOnClick("ManageRole/majRole","frmEdit","#result");
+			$form->addErrorMessage();
 			$this->jquery->compile($this->view);
     }
 
@@ -67,11 +69,13 @@ class ManageRoleController extends ControllerBase
     
     public function addRoleAction(){
 	    	$semantic=$this->semantic;
-	    	
+	    		    	
 	    	$form=$semantic->htmlForm("frmAdd");
-	    	$form->addInput("nameRole","Nom","text");
+	    	$form->setValidationParams(["on"=>"blur","inline"=>true]);
+	    	$form->addInput("nameRole","Nom","text")->addRule(["empty","Ce champ est obligatoire"]);
 	    	
 	    	$form->addButton("submit","Ajouter le rôle","button green")->postFormOnClick("ManageRole/newRole","frmAdd","#result");
+	    	$form->addErrorMessage();
 	    	$this->jquery->compile($this->view);
     }
     

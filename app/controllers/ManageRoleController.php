@@ -51,7 +51,7 @@ class ManageRoleController extends ControllerBase
 			$form->addInput("name","Nom","text",$a)->addRule(["empty","Ce champ est obligatoire"]);
 			
 			$form->addButton("submit","Modifier le rôle")->asSubmit();
-			$form->postFormOnClick("ManageRole/majRole","frmEdit","#result");
+			$form->submitOn("click","submit","ManageRole/majRole","#result");
 			$form->addErrorMessage();
 			$this->jquery->compile($this->view);
     }
@@ -75,8 +75,8 @@ class ManageRoleController extends ControllerBase
 	    	$form->setValidationParams(["on"=>"blur","inline"=>true]);
 	    	$form->addInput("nameRole","Nom","text")->addRule(["empty","Ce champ est obligatoire"]);
 	    	
-	    	$form->addButton("submit","Ajouter le rôle")->asSubmit();
-	    	$form->postFormOnClick("ManageRole/newRole","frmAdd","#result");
+	    	$form->addButton("submit","Ajouter le rôle","button green")->asSubmit();
+	    	$form->submitOn("click","submit","ManageRole/newRole","#result");
 	    	$form->addErrorMessage();
 	    	$this->jquery->compile($this->view);
     }

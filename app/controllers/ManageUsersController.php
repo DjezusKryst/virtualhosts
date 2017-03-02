@@ -107,8 +107,8 @@ class ManageUsersController extends ControllerBase
 			$form->addDropdown("nameRole",$itemsrole,"Rôle","Selectionnez un Rôle :",false);
 	    	
 			$form->addButton("submit","Ajouter l'utilisateur")->asSubmit();
-	    	$form->submitOnClick("ManageUsers/newUser","frmAdd","#result");
-	    	$form->addErrorMessage();
+	    	$form->submitOn("click","submit","manageUsers/newUser","#result");
+	    	$form->addErrorMessage();    	
 	    	$this->jquery->compile($this->view);
     }
     
@@ -118,11 +118,10 @@ class ManageUsersController extends ControllerBase
 	    	$firstname=$_POST["firstname"];
 	    	$name=$_POST["name"];
 	    	$email=$_POST["email"];
-	    	$nameRole=$_POST["nameRole"];
-
-	    	$role=Role::findFirst("name='$nameRole'");
-	    	$idrole=$role->getId();
+	    	$IdRole=$_POST["nameRole"];	
 	    	
+	    	$idrole=$role->getId();
+	     	
 	    	$newUser = new User();
 	    	$newUser->setLogin($login);
 	    	$newUser->setPassword($password);

@@ -68,11 +68,13 @@ class ServeurController extends ControllerBase{
 		$virtualhosts=Virtualhost::find("$idHost = ".$idHost);
 		$servers=Server::find("idHost=".$idHost);
 		$list=$this->semantic->htmlList("lst-hosts");
+		$hosts=Host::find();
+		
 		
 		$semantic=$this->semantic;
 		
-		$table=$semantic->htmlTable('table4',0,6);
-		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Modifier virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
+		$table=$semantic->htmlTable('table4',0,7);
+		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Afficher virtualhost(s)","Modifier virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
 		$i=0;
 				
 		foreach ($servers as $server){
@@ -80,13 +82,17 @@ class ServeurController extends ControllerBase{
 			$btnConfig = $semantic->htmlButton("btnConfig-".$i,"Configurer","small green basic")->asIcon("edit")->getOnClick("Serveur/virtual/".$server->getId(),"#divAction");
 			$id = $server->getId();
 			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
-				
+			
+			$btnmodif = $semantic->htmlButton("btnConfig-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("VirtualHosts/");
+			$id = $server->getId();
+			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
+			
 			
 			if ($nbrvirtual == 0 )
 			{
 				$btnDelete = $semantic->htmlButton("btnDelete-".$i,"Supprimer","small red")->asIcon("remove")->getOnClick("Serveur/vDelete/".$server->getId(),"#divAction");
 				$table->addRow([" ",$server->getName(),
-						$server->getConfig(),$btnConfig,$btnDelete,$nbrvirtual]);
+						$server->getConfig(),$btnConfig,$btnmodif,$btnDelete,$nbrvirtual]);
 				
 				
 			}
@@ -95,7 +101,7 @@ class ServeurController extends ControllerBase{
 				$btngrey = $semantic->htmlButton("btnDelete-".$i,"Supprimer","small grey")->asIcon("remove");
 				
 						$table->addRow([" ",$server->getName(),
-						$server->getConfig(),$btnConfig,$btngrey,$nbrvirtual]);
+						$server->getConfig(),$btnConfig,$btnmodif,$btngrey,$nbrvirtual]);
 				
 			}
 			
@@ -126,7 +132,7 @@ class ServeurController extends ControllerBase{
 		$this->secondaryMenu($this->controller,$this->action);
 		$this->tools($this->controller,$this->action);
 		 
-		$host = Host::findFirst();
+		$host = Host::find();
 		
 		$stypes = Stype::find();
 		$itemsStypes = array();
@@ -141,8 +147,7 @@ class ServeurController extends ControllerBase{
 			$itemshost[] = $host->getName();
 		}
 		
-		
-		
+		$this->session->set("host", $host->getName());
 		
 		$semantic=$this->semantic;
 		
@@ -166,11 +171,13 @@ class ServeurController extends ControllerBase{
 		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : * ","Selectionner un type de serveur ...",false);
 		$form->addDropdown("host",$itemshost,"Host : *","Selectionner host ...",false);
 		
-		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmit", "frmUpdate","#divAction");
 		
-
+		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmit", "frmUpdate","#divAction");
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
+		$this->session->get("host");
+		
+		$this->view->setVar("serverName",$host->getName());
 		
 		$this->jquery->compile($this->view);
 		
@@ -279,7 +286,8 @@ class ServeurController extends ControllerBase{
 	public function virtualAction($idServer=NULL,$idhost=NULL){
 	
 		$virtualhosts=Virtualhost::find("idServer=".$idServer."");
-
+		
+		
 		
 		if($virtualhosts->count() == 0 ){
 			$semantic=$this->semantic;
@@ -300,7 +308,12 @@ class ServeurController extends ControllerBase{
 			$table->setHeaderValues([" ","Nom du Virtualhosts","Configuration","Modifier","Supprimer"]);
 			$i=0;
 			
-			echo "<h3> Liste des virtualhosts : </h3>";
+			/*
+			 * 
+			 * 
+			 */
+			
+			
 			foreach ($virtualhosts as $virtualhost){
 				$btnConfigvirtual= $semantic->htmlButton("btnConfigvirtual-".$i,"Configurer","small green basic")->asIcon("edit")->getOnClick("Serveur/vChangevirtual/".$virtualhost->getId(),"#divAction");
 					
@@ -319,7 +332,7 @@ class ServeurController extends ControllerBase{
 			$semantic=$this->semantic;
 			
 			$title=$semantic->htmlHeader("header1",2);
-			$title->asTitle("Liste des Virtualhost(s) pour :","Séléctionner un virtualhost pour le supprimer et modifier");
+			$title->asTitle("Liste des Virtualhost(s) pour le serveur :","Séléctionner un virtualhost pour le supprimer et modifier");
 			$this->view->setVar("title1", $title);
 			
 			

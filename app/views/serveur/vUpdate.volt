@@ -1,9 +1,9 @@
 <div class="ui green segment">
     
-    <h3> Ajout du nouveau serveur : </h3>
+    <h3> Ajout du nouveau serveur pour la machine {{ serverName }} </h3>
     {{ q["frmUpdate"] }}
     
     
 </div>
-* Champ Obligatoire 
+* Champs obligatoires 
 {{ script_foot }}

@@ -47,17 +47,16 @@ class ServeurController extends ControllerBase{
 		
 		
 		$list=$this->semantic->htmlList("lst-hosts");
-		foreach ($hosts as $host){
-			$item=$list->addItem(["icon"=>"add","header"=>$host->getName(),"description"=>$host->getIpv4()]);
-			$item->addToProperty("data-ajax", $host->getId());
-		}
-		$list->setHorizontal();
 		
-		
-		$list->setSelection();
-		
-		
-		
+	
+				foreach ($hosts as $host){
+					$item=$list->addItem(["icon"=>"add","header"=>$host->getName(),"description"=>$host->getIpv4()]);
+					$item->addToProperty("data-ajax", $host->getId());
+				}
+				$list->setHorizontal();
+				
+				$list->setSelection();
+
 		$this->jquery->getOnClick("#lst-hosts .item","Serveur/servers","#servers",["attr"=>"data-ajax"]);
 		$this->jquery->compile($this->view);
 		
@@ -83,7 +82,7 @@ class ServeurController extends ControllerBase{
 			$id = $server->getId();
 			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 			
-			$btnmodif = $semantic->htmlButton("btnConfig-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("VirtualHosts/");
+			$btnmodif = $semantic->htmlButton("btnConfig-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("VirtualHosts/config/");
 			$id = $server->getId();
 			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 			
@@ -170,6 +169,7 @@ class ServeurController extends ControllerBase{
 	
 		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : * ","Selectionner un type de serveur ...",false);
 		$form->addDropdown("host",$itemshost,"Host : *","Selectionner host ...",false);
+	
 		
 		
 		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmit", "frmUpdate","#divAction");
@@ -332,7 +332,7 @@ class ServeurController extends ControllerBase{
 			$semantic=$this->semantic;
 			
 			$title=$semantic->htmlHeader("header1",2);
-			$title->asTitle("Liste des Virtualhost(s) pour le serveur :","Séléctionner un virtualhost pour le supprimer et modifier");
+			$title->asTitle("Liste des Virtualhost(s) pour le serveur :","Séléctionner un virtualhost pour le supprimer et/ou le modifier");
 			$this->view->setVar("title1", $title);
 			
 			
@@ -412,12 +412,8 @@ class ServeurController extends ControllerBase{
 		$title->asTitle("Ajout du nouveau virtualhost :","Créer un nouveau virtualhost avec son nom et sa configuration");
 		$this->view->setVar("title1", $title);
 		
+	
 		
-		$itemservers = array();
-		foreach($servers as $server) {
-			$itemservers[] = $server->getName();
-		}
-		 	
 		 	
 		$semantic=$this->semantic;
 		
@@ -435,11 +431,14 @@ class ServeurController extends ControllerBase{
 		
 		$input2=$semantic->htmlInput("Configuration...");
 		$form->addInput("config")->getField()->labeledToCorner("asterisk","right");
+		
+		$items=Ajax\service\JArray::modelArray($servers,function($c){return $c->getId();},function($c){return $c->getName();});
+		
+		$form->addDropdown("server",$items,"Nom du serveur : * ","Selectionner un  serveur ...",false);
+		
+		
 			
 		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmitvirtual", "frmUpdate","#divAction");
-		
-		
-
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
 			
@@ -451,9 +450,7 @@ class ServeurController extends ControllerBase{
 		if(!empty($_POST['name'] && $_POST['config'] && $_POST['server'])){
 			$Virtualhost = new Virtualhost();
 	
-			$idserver = Server::findFirst("name = '".$_POST['server']."'");
-			
-				
+			$idserver = Server::findFirst($_POST['server']);
 			
 			$Virtualhost->setIdServer($idserver->getId());
 			
@@ -462,6 +459,7 @@ class ServeurController extends ControllerBase{
 					[
 							"name",
 							"config",
+							"server"
 								
 					]
 					);
@@ -488,9 +486,14 @@ class ServeurController extends ControllerBase{
 	public function vChangevirtualAction($idvirtualhost){
 		$this->secondaryMenu($this->controller,$this->action);
 		$this->tools($this->controller,$this->action);
+		
+		$semantic=$this->semantic;
 				 
 		$virtualhosts = Virtualhost::findFirst($idvirtualhost);
 	
+		$title=$semantic->htmlHeader("header1",2);
+		$title->asTitle("Modification du virtualhost","La Modification sera apporté au virtualhost :");
+		$this->view->setVar("title1", $title);
 		
 		$hosts = Host::find();
 		
@@ -508,16 +511,15 @@ class ServeurController extends ControllerBase{
 		
 		
 					 
-		$semantic=$this->semantic;
+	
 		
 		$btnCancel = $semantic->htmlButton("btnCancel","Annuler","red");
 		$btnCancel->getOnClick($this->controller."/index","#index");
 		 
 		$form=$semantic->htmlForm("frmUpdate");
 		$form->addInput("id",NULL,"hidden",$virtualhosts->getId());
-		
-		
-		$form->addInput("name","Changer de Nom *:")->setValue($virtualhosts->getName());	
+
+		$form->addInput("name","Changer de Nom :")->setValue($virtualhosts->getName());	
 		$form->addInput("config","Changer sa configuration :")->setValue($virtualhosts->getConfig());
 		
 		$form->addDropdown("host",$itemhost,"Nom du nouveau host :  ","Nouveau host...",false);

@@ -1,5 +1,7 @@
 <div id="divAction">
-     <h3> Modification du virtualhost : </h3>
+<div class="ui green segment">
+{{ title1 }}
      {{ q["frmUpdate"] }}
+</div>
 </div>
 {{ script_foot }}

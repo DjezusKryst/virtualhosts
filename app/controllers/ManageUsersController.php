@@ -53,7 +53,7 @@ class ManageUsersController extends ControllerBase
 			$form->addInput("password","Mot de Passe","text",$userEdit->getPassword())->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("firstname","Prenom","text",$userEdit->getFirstname())->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("name","Nom","text",$userEdit->getName())->addRule(["empty","Ce champ est obligatoire"]);
-			$form->addInput("email","Adresse Mail","text",$userEdit->getEmail())->addRule(["empty","Ce champ est obligatoire"]);
+			$form->addInput("email","Adresse Mail","text",$userEdit->getEmail())->addRules(["empty","email"]);
 			$form->addInput("idrole","Rôle","text",$userEdit->getIdrole())->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addDropdown("nameRole",$itemsrole,"Rôle",$nameRole,false);
 			
@@ -103,10 +103,11 @@ class ManageUsersController extends ControllerBase
 			$form->addInput("password","Mot de Passe","text")->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("firstname","Prenom","text")->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("name","Nom","text")->addRule(["empty","Ce champ est obligatoire"]);
-			$form->addInput("email","Adresse Mail","text")->addRule(["empty","Ce champ est obligatoire"]);
+			$form->addInput("email","Adresse Mail","text")->addRules(["empty","email"]);
 			$form->addDropdown("nameRole",$itemsrole,"Rôle","Selectionnez un Rôle :",false);
 	    	
-	    	$form->addButton("submit","Ajouter l'utilisateur","button green")->postFormOnClick("ManageUsers/newUser","frmAdd","#result");
+			$form->addButton("submit","Ajouter l'utilisateur")->asSubmit();
+	    	$form->submitOnClick("ManageUsers/newUser","frmAdd","#result");
 	    	$form->addErrorMessage();
 	    	$this->jquery->compile($this->view);
     }
@@ -158,6 +159,8 @@ class ManageUsersController extends ControllerBase
     	if($deleteUser->getFirstname()." ".$deleteUser->getName() == $_POST['name']){
     		$deleteUser->delete();
     		$this->jquery->compile($this->view);
+    		
+
     	}
     }
 

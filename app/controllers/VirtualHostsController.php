@@ -29,8 +29,6 @@ class VirtualHostsController extends ControllerBase
 		
 		$virtualHosts = Virtualhost::findFirst("id=$idVirtualhost");
 		
-		
-		
 		if ($virtualHosts == NULL){
 			echo "Tentative d'accès à un hôte virtuel qui n'existe pas bloquée.";
 			$this->view->disable();
@@ -60,10 +58,8 @@ class VirtualHostsController extends ControllerBase
 
 		$title2=$semantic->htmlHeader("header2",2);
 		$title2->asTitle("Fichier de configuration","Fichier Apache actuellement utilisé sur l'hôte virtuel");
-		//$semantic->htmlIcon("editIcon","edit")->getOnClick("VirtualHosts/editApache","#modification2");
-		
+
 		$semantic->htmlIcon("editIcon", "edit")->onClick("$('.settings').trigger('click')")->onClick("$('#modifier').trigger('click')");
-		//->onClick("$('#modifier').trigger('click')");
 		$this->view->setVar("title2", $title2);
 		
 		$table=$semantic->htmlTable('infos',5,3);
@@ -76,11 +72,7 @@ class VirtualHostsController extends ControllerBase
 				
 		]);
 		$table->setDefinition();
-		
-		/*$table=$this->semantic->htmlTable("infos",2,4);
-		$table->setHeaderValues(["Machine","Serveur","Adresse IPv4","Adresse IPv6"]);
-		$table->setValues([$host->getName(),$server->getName(),$host->getIpv4(),$IPv6]);
-			*/
+	
 		$semantic->htmlButton("modifier","Modifier")->getOnClick("VirtualHosts/editApache","#modification")->setPositive();
 		
 		$buttons=$this->semantic->htmlButtonGroups("importOrExport",array("Importer","Exporter"));
@@ -89,6 +81,7 @@ class VirtualHostsController extends ControllerBase
 		$buttons->getElement(2)->getOnClick("VirtualHosts/exportConfig/".$virtualHosts->getId()."","#uploadExport");
 		
 		
+		$this->view->setVar("server", $server);
 		$this->jquery->exec("Prism.highlightAll();",true);
 		$this->jquery->compile($this->view);
 		}

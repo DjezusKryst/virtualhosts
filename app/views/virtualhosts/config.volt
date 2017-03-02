@@ -8,8 +8,7 @@
 }
 </style>
 
-<h1>Configuration de l'hôte virtuel {{ virtualHost.getName() }}</h1>
-
+<h1>Configuration de l'hôte virtuel {{ virtualHost.getName() }} sur {{ server.getName() }}</h1>
 
 <div class="ui top attached tabular menu">
   <a class="item active" data-tab="first"><i class="dashboard icon"></i>Récapitulatif</a>

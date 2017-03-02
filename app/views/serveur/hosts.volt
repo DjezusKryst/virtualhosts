@@ -7,7 +7,7 @@
     <div class="header">
       ATTENTION
     </div>
-    <p>La suppression d'un serveur dans lequelle sont présents de(s) virtualhost(s) </p>
+    <p>La suppression d'un serveur dans lequelle sont présents de(s) virtualhost(s) est impossible </p>
   </div>
 </div>
         

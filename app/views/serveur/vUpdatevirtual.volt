@@ -5,5 +5,5 @@
     
 
 </div>
-* Champ Obligatoire 
+* Champs obligatoires 
 {{ script_foot }}

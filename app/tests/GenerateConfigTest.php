@@ -18,4 +18,18 @@ class GenerateConfigTest extends \UnitTestCase {
 		
 		$this->assertTrue(sizeof($virtualHostProperties)>0);
 	}
+	
+	public function testGetServerStype(){
+		// Récupérer l'objet serveur
+		$server = Server::findFirst();
+	
+		// Récupérer l'id du stype
+		$idStype = $server->getIdStype($server);
+	
+		// Récupérer l'objet stype correspondant au serveur obtenu précédemment
+		$stype = Stype::findFist($idStype);
+	
+		// Retourner le résultat
+		$this->assertNotNull($stype);
+	}
 }

@@ -18,7 +18,21 @@ class GenerateConfig{
 		
 		// Retourner le serveur récupéré
 		return $server;
-	}	
+	}
+	
+	public function getServerStype($idServer){
+		// Récupérer l'objet serveur
+		$server = Server::findFirst($idServer);
+		
+		// Récupérer l'id du stype
+		$idStype = $server->getIdStype();
+		
+		// Récupérer l'objet stype correspondant au serveur obtenu précédemment
+		$stype = Stype::findFist($idStype);
+		
+		// Retourner le résultat
+		return $stype;		
+	}
 	
 	public function getVirtualHostProperties($IdVirtualHost){		
 		// Récupérer les properties associées au VH
@@ -30,9 +44,5 @@ class GenerateConfig{
 				);
 		
 		return $virtualHostProperties;
-	}
-	
-	public function {
-	
 	}
 }

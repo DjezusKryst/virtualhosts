@@ -73,18 +73,20 @@ class ServeurController extends ControllerBase{
 		
 		$semantic=$this->semantic;
 		
+		
+		
 		$table=$semantic->htmlTable('table4',0,7);
-		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Afficher virtualhost(s)","Modifier virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
+		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Afficher virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
 		$i=0;
 				
 		foreach ($servers as $server){
 			
 			$btnConfig = $semantic->htmlButton("btnConfig-".$i,"Configurer","small green basic")->asIcon("edit")->getOnClick("Serveur/virtual/".$server->getId(),"#divAction");
 			$id = $server->getId();
-			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 			
-			$btnmodif = $semantic->htmlButton("btnConfig-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("VirtualHosts/config");
-			$id = $server->getId();
+			
+			
+			
 			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 			
 			
@@ -92,7 +94,7 @@ class ServeurController extends ControllerBase{
 			{
 				$btnDelete = $semantic->htmlButton("btnDelete-".$i,"Supprimer","small red")->asIcon("remove")->getOnClick("Serveur/vDelete/".$server->getId(),"#divAction");
 				$table->addRow([" ",$server->getName(),
-						$server->getConfig(),$btnConfig,$btnmodif,$btnDelete,$nbrvirtual]);
+						$server->getConfig(),$btnConfig,$btnDelete,$nbrvirtual]);
 				
 				
 			}
@@ -101,7 +103,7 @@ class ServeurController extends ControllerBase{
 				$btngrey = $semantic->htmlButton("btnDelete-".$i,"Supprimer","small grey")->asIcon("remove");
 				
 						$table->addRow([" ",$server->getName(),
-						$server->getConfig(),$btnConfig,$btnmodif,$btngrey,$nbrvirtual]);
+						$server->getConfig(),$btnConfig,$btngrey,$nbrvirtual]);
 				
 			}
 			
@@ -280,6 +282,7 @@ class ServeurController extends ControllerBase{
 	public function virtualAction($idServer=NULL,$idhost=NULL){
 	
 		$virtualhosts=Virtualhost::find("idServer=".$idServer."");
+		$this->session->set("virtualhost", Virtualhost::findFirst($idServer));
 		
 		
 		
@@ -297,15 +300,15 @@ class ServeurController extends ControllerBase{
 			$semantic=$this->semantic;
 			
 		
-			
-			$table=$semantic->htmlTable('table4',0,6);
-			$table->setHeaderValues([" ","Nom du Virtualhosts","Configuration","Modifier","Supprimer"]);
-			$i=0;
-			
 			/*
 			 * 
 			 * 
+			 * 
 			 */
+			$table=$semantic->htmlTable('table4',0,7);
+			$table->setHeaderValues([" ","Nom du Virtualhosts","Configuration","Modifier Virtualhost(s)","Renommer","Supprimer"]);
+			$i=0;
+			
 			
 			
 			foreach ($virtualhosts as $virtualhost){
@@ -313,10 +316,15 @@ class ServeurController extends ControllerBase{
 					
 				$ajoutervirtual=$semantic->htmlButton("ajoutervirtual","Ajouter un virtualhost","black")->getOnClick("Serveur/vUpdatevirtual","#divAction")->setNegative();
 					
+				//$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
+				
+				$btnmodif = $semantic->htmlButton("btnmodif-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("virtualHosts/config/".$virtualhost->getId(),"#content-container");
+					
+				
 				$btnDelete = $semantic->htmlButton("btnDeleteVirtual-".$i,"Supprimer","small red")->asIcon("remove")->getOnClick("Serveur/vDeletevirtual/".$virtualhost->getId(),"#divAction");
 					
 				$table->addRow([" ",$virtualhost->getName(),
-						$virtualhost->getConfig(),$btnConfigvirtual,$btnDelete]);
+						$virtualhost->getConfig(),$btnmodif,$btnConfigvirtual,$btnDelete]);
 			
 				$table->setDefinition();
 				$i++;
@@ -326,7 +334,10 @@ class ServeurController extends ControllerBase{
 			$semantic=$this->semantic;
 			
 			$title=$semantic->htmlHeader("header1",2);
-			$title->asTitle("Liste des Virtualhost(s) pour le serveur :","Séléctionner un virtualhost pour le supprimer et/ou le modifier");
+			
+			
+			
+			$title->asTitle("Liste des Virtualhost(s) pour le serveur : ","Séléctionner un virtualhost pour le supprimer et/ou le modifier");
 			$this->view->setVar("title1", $title);
 			
 			
@@ -489,21 +500,11 @@ class ServeurController extends ControllerBase{
 		$title->asTitle("Modification du virtualhost","La Modification sera apporté au virtualhost :");
 		$this->view->setVar("title1", $title);
 		
-		$hosts = Host::find();
-		
-		$itemhost = array();
-		foreach($hosts as $host) {
-			$itemhost[] = $host->getName();
-		}
+		$hosts = Host::find();		
+		$itemhost = JArray::modelArray($hosts,"getId","getName");
 		
 		$servers = Server::find();
-		
-		$itemservers = array();
-		foreach($servers as $server) {
-			$itemservers[] = $server->getName();
-		}
-		
-		
+		$itemservers = JArray::modelArray($servers,"getId","getName");
 					 
 	
 		
@@ -541,8 +542,6 @@ class ServeurController extends ControllerBase{
 		
 		$host= Host::findFirst("name = '".$_POST['host']."'");
 		
-		
-		
 			$virtualhost->setName($_POST["name"]);
 			$virtualhost->setConfig($_POST["config"]);
 			$server->setIdHost($host->getId());
@@ -550,7 +549,6 @@ class ServeurController extends ControllerBase{
 			$virtualhost->setIdServer($server->getId());
 		
 			$virtualhost->save();
-			$server->save();
 		echo $this->jquery->compile();
 	
 	}

@@ -154,21 +154,30 @@ class ServeurController extends ControllerBase{
 		$btnCancel->getOnClick("Servers","#divAction");
 	
 		
+		
 		$form=$semantic->htmlForm("frmUpdate");
-		$form->addInput("name")->getField()->labeledToCorner("asterisk","right");
+		
+		
+		
+		$form->addInput("name")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		
 		
 		$input2=$semantic->htmlInput("Configuration...");
-		$form->addInput("config")->getField()->labeledToCorner("asterisk","right");
-			
+		$form->addInput("config")->addRule(["empty","La configuration est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		
-	
-		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : * ","Selectionner un type de serveur ...",false);
-		$form->addDropdown("host",$itemshost,"Host : *","Selectionner host ...",false);
-	
-	
-		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmit", "frmUpdate","#divAction");
+		
+		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : * ","Selectionner un type de serveur ...",false)->addRule(["empty","Ce champ est obligatoire"]);
+		$form->addDropdown("host",$itemshost,"Host : *","Selectionner host ...",false)->addRule(["empty","Ce champ est obligatoire"]);
+		
+		$form->addButton("submit", "Valider","ui green button");
+		
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
+
+		$form->addErrorMessage();
+		
+		
+		//$form->setValidationParams(["inline"=> true]);
+		$form->submitOnClick("submit", "Serveur/vAddSubmit", "#divAction");
 		
 		$host=$this->session->get("host");
 		
@@ -306,6 +315,7 @@ class ServeurController extends ControllerBase{
 			 * 
 			 */
 			$table=$semantic->htmlTable('table4',0,7);
+			
 			$table->setHeaderValues([" ","Nom du Virtualhosts","Configuration","Modifier Virtualhost(s)","Renommer","Supprimer"]);
 			$i=0;
 			
@@ -315,8 +325,6 @@ class ServeurController extends ControllerBase{
 				$btnConfigvirtual= $semantic->htmlButton("btnConfigvirtual-".$i,"Configurer","small green basic")->asIcon("edit")->getOnClick("Serveur/vChangevirtual/".$virtualhost->getId(),"#divAction");
 					
 				$ajoutervirtual=$semantic->htmlButton("ajoutervirtual","Ajouter un virtualhost","black")->getOnClick("Serveur/vUpdatevirtual","#divAction")->setNegative();
-					
-				//$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 				
 				$btnmodif = $semantic->htmlButton("btnmodif-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("virtualHosts/config/".$virtualhost->getId(),"#content-container");
 					
@@ -335,7 +343,10 @@ class ServeurController extends ControllerBase{
 			
 			$title=$semantic->htmlHeader("header1",2);
 			
-			
+			/*
+			 * 
+			 * 
+			 */
 			
 			$title->asTitle("Liste des Virtualhost(s) pour le serveur : ","Séléctionner un virtualhost pour le supprimer et/ou le modifier");
 			$this->view->setVar("title1", $title);
@@ -431,11 +442,11 @@ class ServeurController extends ControllerBase{
 		
 		
 		$form=$semantic->htmlForm("frmUpdate");
-		$form->addInput("name")->getField()->labeledToCorner("asterisk","right");
+		$form->addInput("name")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		
 		
 		$input2=$semantic->htmlInput("Configuration...");
-		$form->addInput("config")->getField()->labeledToCorner("asterisk","right");
+		$form->addInput("config")->addRule(["empty","La configuration est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		
 		$items=Ajax\service\JArray::modelArray($servers,function($c){return $c->getId();},function($c){return $c->getName();});
 		
@@ -443,9 +454,12 @@ class ServeurController extends ControllerBase{
 		
 		
 			
-		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmitvirtual", "frmUpdate","#divAction");
+		$form->addButton("submit", "Valider","ui green button");
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
+		$form->addErrorMessage();
+
+		$form->submitOnClick("submit", "Serveur/vAddSubmit", "#divAction");
 			
 		$this->jquery->compile($this->view);
 		

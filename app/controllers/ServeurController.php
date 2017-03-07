@@ -418,6 +418,8 @@ class ServeurController extends ControllerBase{
 	public function vUpdatevirtualAction(){
 		$this->secondaryMenu($this->controller,$this->action);
 		$this->tools($this->controller,$this->action);
+		
+		
 			
 		$stypes = Stype::find();
 		$servers = Server::find();
@@ -425,7 +427,7 @@ class ServeurController extends ControllerBase{
 		$semantic=$this->semantic;
 		
 		$title=$semantic->htmlHeader("header1",2);
-		$title->asTitle("Ajout du nouveau virtualhost :","Créer un nouveau virtualhost avec son nom et sa configuration");
+		$title->asTitle("Ajout du nouveau virtualhost pour le serveur :","Créer un nouveau virtualhost avec son nom et sa configuration");
 		$this->view->setVar("title1", $title);
 		
 	
@@ -511,7 +513,7 @@ class ServeurController extends ControllerBase{
 		$virtualhosts = Virtualhost::findFirst($idvirtualhost);
 	
 		$title=$semantic->htmlHeader("header1",2);
-		$title->asTitle("Modification du virtualhost","La Modification sera apporté au virtualhost :");
+		$title->asTitle("Modification d'un virtualhost ","La Modification sera apporté au virtualhost : ".$virtualhosts->getName());
 		$this->view->setVar("title1", $title);
 		
 		$hosts = Host::find();		
@@ -528,8 +530,8 @@ class ServeurController extends ControllerBase{
 		$form=$semantic->htmlForm("frmUpdate");
 		$form->addInput("id",NULL,"hidden",$virtualhosts->getId());
 
-		$form->addInput("name","Changer de Nom :")->setValue($virtualhosts->getName());	
-		$form->addInput("config","Changer sa configuration :")->setValue($virtualhosts->getConfig());
+		$form->addInput("name","Changer de nom de virtualhost :")->setValue($virtualhosts->getName());	
+		$form->addInput("config","Changer la configuration du virtualhost :")->setValue($virtualhosts->getConfig());
 		
 		$form->addDropdown("host",$itemhost,"Nom du nouveau host :  ","Nouveau host...",false);
 
@@ -552,19 +554,19 @@ class ServeurController extends ControllerBase{
 		
 		$idVH=$_POST["id"];
 		$virtualhost= Virtualhost::findFirst("id='$idVH'");
-		$server= Server::findFirst("name = '".$_POST['server']."'");
+		$server= Server::findFirst("id = '".$_POST['server']."'");
 		
-		$host= Host::findFirst("name = '".$_POST['host']."'");
+		$host= Host::findFirst("id = '".$_POST['host']."'");
 		
 			$virtualhost->setName($_POST["name"]);
 			$virtualhost->setConfig($_POST["config"]);
+			
 			$server->setIdHost($host->getId());
 			
 			$virtualhost->setIdServer($server->getId());
 		
 			$virtualhost->save();
 		echo $this->jquery->compile();
-	
 	}
 	
 	

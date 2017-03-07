@@ -10,8 +10,8 @@ class GenerateConfig{
         return $configTemplate;
     }
 
-    public static function getVirtualHostTemplate($virtualHost){
-        $configTemplate = $virtualHost->getVirtualhostproperties()->getStypeproperty()->getTemplate();
-        return $configTemplate;
+    public static function getVHStypeproperties($virtualHost){
+        $properties = $virtualHost->getServer()->getStype()->getStypeproperties();
+        return $properties;
     }
 }

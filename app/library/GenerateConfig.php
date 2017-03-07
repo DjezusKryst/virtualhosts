@@ -10,24 +10,8 @@ class GenerateConfig{
         return $configTemplate;
     }
 
-
-    public static function getServerVirtualHosts($idServer){
-        // Récupérer l'objet serveur
-        $server = Server::findFirst($idServer);
-
-        // Prendre que les VH ayant l'id du server
-        $server->getVirtualhost();
+    public static function getVirtualHostTemplate($virtualHost){
+        $configTemplate = $virtualHost->getVirtualhostproperties()->getStypeproperty()->getTemplate();
+        return $configTemplate;
     }
-
-	public static function getVirtualHostProperties($IdVirtualHost){
-		// Récupérer les properties associées au VH
-		$virtualHostProperties=Virtualhostproperty::find(
-				[
-						"idVirtualhost = {$IdVirtualHost}",
-						"order"=>"idProperty ASC",
-						]
-				);
-		
-		return $virtualHostProperties;
-	}
 }

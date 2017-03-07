@@ -35,11 +35,6 @@ class ManageUsersController extends ControllerBase
     public function editUserAction($a=NULL){		
     		$semantic=$this->semantic;	
     		
-    		/*$roles=Role::find();
-    		$itemsrole = array();
-    		foreach($roles as $role) {
-    			$itemsrole[] = $role->getName();
-    		}*/
     		$roles=Role::find();
     		$itemsrole = JArray::modelArray($roles,"getId","getName");
     		
@@ -57,12 +52,10 @@ class ManageUsersController extends ControllerBase
 			$form->addInput("firstname","Prenom","text",$userEdit->getFirstname())->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("name","Nom","text",$userEdit->getName())->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("email","Adresse Mail","text",$userEdit->getEmail())->addRules(["empty","email"]);
-			//$form->addInput("idrole","Rôle","text",$userEdit->getIdrole())->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addDropdown("nameRole",$itemsrole,"Rôle",$nameRole,false);
 			
 			$form->addButton("submit","Valider les changements")->asSubmit()->setColor("green");
 			$form->submitOn("click","submit","manageUsers/majUser","#result");
-			//$form->addButton("submit","envoyer","button green")->postFormOnClick("ManageUsers/majUser","frmEdit","#result");
 			$form->addErrorMessage();
 			$this->jquery->compile($this->view);
     }
@@ -77,7 +70,6 @@ class ManageUsersController extends ControllerBase
 
     	$nameRole=$_POST["nameRole"];
     	
-    	//$role=Role::findFirst("name='$nameRole'");
     	$role = Role::findFirst("id = '".$_POST['nameRole']."'");
     	$idrole=$role->getId();
     	
@@ -103,7 +95,7 @@ class ManageUsersController extends ControllerBase
 	    	$form=$semantic->htmlForm("frmAdd");
 	    	$form->setValidationParams(["on"=>"blur","inline"=>true]);
 	    	$form->addInput("login","Identifiant","text")->addRule(["empty","Ce champ est obligatoire"]);
-			$form->addInput("password","Mot de Passe","text")->addRule(["empty","Ce champ est obligatoire"]);
+			$form->addInput("password","Mot de Passe","password")->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("firstname","Prenom","text")->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("name","Nom","text")->addRule(["empty","Ce champ est obligatoire"]);
 			$form->addInput("email","Adresse Mail","text")->addRules(["empty","email"]);

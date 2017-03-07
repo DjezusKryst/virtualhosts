@@ -112,8 +112,22 @@ class ManageRoleController extends ControllerBase
     
     public function confirmDeleteAction(){
     	$deleteRole = Role::findFirst($_POST['id']);
-    		
+    	$idrole=$deleteRole->getId();
+    	
+    	$roleRecup = Role::findFirst(["id != '$idrole'",]);
+    	$idroleRecup=$roleRecup->getId();
+
     	if($deleteRole->getName() == $_POST['name']){
+    		
+    		$users=User::find(["idrole = '$idrole'",]);
+    		
+    		foreach ($users as $userEdit)
+    		{
+    			$userEdit->setIdrole($idroleRecup);
+    			$userEdit->update();
+    		}
+    		$i = "done";
+    		
     		$deleteRole->delete();
     		$this->jquery->compile($this->view);
     	}

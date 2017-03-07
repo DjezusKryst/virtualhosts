@@ -3,6 +3,7 @@
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\Semantic;
 use Phalcon\Forms\Element\Submit;
+use Ajax\service\JArray;
 
 class ManageUsersController extends ControllerBase
 {
@@ -92,10 +93,7 @@ class ManageUsersController extends ControllerBase
 	    	$semantic=$this->semantic;
 	    	
 	    	$roles=Role::find();
-	    	$itemsrole = array();
-	    	foreach($roles as $role) {
-	    		$itemsrole[] = $role->getName();
-	    	}
+	    	$itemsrole = JArray::modelArray($roles,"getId","getName");
 	    	
 	    	$form=$semantic->htmlForm("frmAdd");
 	    	$form->setValidationParams(["on"=>"blur","inline"=>true]);
@@ -119,9 +117,10 @@ class ManageUsersController extends ControllerBase
 	    	$name=$_POST["name"];
 	    	$email=$_POST["email"];
 	    	$IdRole=$_POST["nameRole"];	
-	    	
+
+	    	$role = Role::findFirst("id = '".$_POST['nameRole']."'");
 	    	$idrole=$role->getId();
-	     	
+	    	  	
 	    	$newUser = new User();
 	    	$newUser->setLogin($login);
 	    	$newUser->setPassword($password);
@@ -130,6 +129,7 @@ class ManageUsersController extends ControllerBase
 	    	$newUser->setEmail($email);
 	    	$newUser->setIdrole($idrole);
 	    	$newUser->create();
+
 	    	
 	    	$this->jquery->compile($this->view);
     }

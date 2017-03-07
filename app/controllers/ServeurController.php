@@ -8,6 +8,7 @@ use Ajax\Semantic;
 use Ajax\semantic\html\elements\HtmlIcon;
 use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo;
+use Ajax\service\JArray;
 class ServeurController extends ControllerBase{
 
 	
@@ -64,10 +65,10 @@ class ServeurController extends ControllerBase{
 	
 	public function serversAction($idHost=NULL){
 		
+		$this->session->set("host", Host::findFirst($idHost));
 		$virtualhosts=Virtualhost::find("$idHost = ".$idHost);
 		$servers=Server::find("idHost=".$idHost);
 		$list=$this->semantic->htmlList("lst-hosts");
-		$hosts=Host::find();
 		
 		
 		$semantic=$this->semantic;
@@ -82,7 +83,7 @@ class ServeurController extends ControllerBase{
 			$id = $server->getId();
 			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 			
-			$btnmodif = $semantic->htmlButton("btnConfig-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("VirtualHosts/config/");
+			$btnmodif = $semantic->htmlButton("btnConfig-".$i,"Configurer","small blue basic")->asIcon("edit")->getOnClick("VirtualHosts/config");
 			$id = $server->getId();
 			$nbrvirtual = count(Virtualhost::find("idServer = ".$id));
 			
@@ -134,19 +135,12 @@ class ServeurController extends ControllerBase{
 		$host = Host::find();
 		
 		$stypes = Stype::find();
-		$itemsStypes = array();
-		foreach($stypes as $stype) {
-			$itemsStypes[] = $stype->getName();
-		}
-		
+		$itemsStypes = JArray::modelArray($stypes,"getId","getName");
 
 		$hosts = Host::find();
-		$itemshost = array();
-		foreach($hosts as $host) {
-			$itemshost[] = $host->getName();
-		}
+		$itemshost = JArray::modelArray($hosts,"getId","getName");
 		
-		$this->session->set("host", $host->getName());
+		//$this->session->set("host", $host->getName());
 		
 		$semantic=$this->semantic;
 		
@@ -170,12 +164,11 @@ class ServeurController extends ControllerBase{
 		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : * ","Selectionner un type de serveur ...",false);
 		$form->addDropdown("host",$itemshost,"Host : *","Selectionner host ...",false);
 	
-		
-		
+	
 		$form->addButton("submit", "Valider","ui green button")->postFormOnClick("Serveur/vAddSubmit", "frmUpdate","#divAction");
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
-		$this->session->get("host");
+		$host=$this->session->get("host");
 		
 		$this->view->setVar("serverName",$host->getName());
 		
@@ -186,11 +179,12 @@ class ServeurController extends ControllerBase{
 	
 
 	public function vAddSubmitAction(){
+		
 		if(!empty($_POST['name'] && $_POST['config'] && $_POST['stype'] && $_POST['host'])){
 			$Server = new Server();
 	
-			$idhost = Host::findFirst("name = '".$_POST['host']."'");
-			$idstype = Stype::findFirst("name = '".$_POST['stype']."'");
+			$idhost = Host::findFirst("id = '".$_POST['host']."'");
+			$idstype = Stype::findFirst("id = '".$_POST['stype']."'");
 			
 			$Server->setIdStype($idstype->getId());
 			$Server->setIdHost($idhost->getId());
@@ -199,6 +193,7 @@ class ServeurController extends ControllerBase{
 					[
 							"name",
 							"config",
+							
 					
 					]
 					);
@@ -206,8 +201,7 @@ class ServeurController extends ControllerBase{
 			
 			$this->jquery->get("Serveur/hosts/","#tab");
 			$this->flash->message("success", "Le serveur a été inseré avec succès");
-			//$this->jquery->get("Serveur","#refresh");
-					
+			//$this->jquery->get("Serveur","#refresh");	
 			 
 		}else{
 			$this->flash->message("error", "Veuillez remplir tous les champs");

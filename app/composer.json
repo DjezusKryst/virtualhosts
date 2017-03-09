@@ -1,5 +1,8 @@
 {
     "require": {
         "phpmv/php-mv-ui": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "6.0"
     }
 }

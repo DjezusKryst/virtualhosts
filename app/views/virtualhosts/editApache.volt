@@ -19,5 +19,7 @@
 </form>
 {% endif %}
 <br />
+
+{{ q["divDelete"] }}
 {{ javascript_include("js/jquery.tablesort.min.js") }}
 {{ script_foot }}

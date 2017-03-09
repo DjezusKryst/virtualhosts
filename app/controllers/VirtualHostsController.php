@@ -1,5 +1,6 @@
 <?php
 use Ajax\semantic\html\modules\checkbox\HtmlCheckbox;
+use Phalcon\Http\Response;
 use Ajax\semantic\html\elements\HtmlButton;
 use Ajax\semantic\html\elements\HtmlInput;
 use Ajax\Semantic;
@@ -73,18 +74,12 @@ class VirtualHostsController extends ControllerBase
 		]);
 		$table->setDefinition();
 	
-		$semantic->htmlButton("modifier","Modifier")->getOnClick("VirtualHosts/editApache","#modification")->setPositive();
+		$semantic->htmlButton("modifier","Modifier proprietés")->getOnClick("VirtualHosts/editApache/".$virtualHosts->getId(),"#modification")->setPositive();
 		
-		$buttons=$this->semantic->htmlButtonGroups("importOrExport",array("Importer","Exporter"));
+		$buttons=$this->semantic->htmlButtonGroups("importOrExport",array("Importer config.","Exporter config."));
 		$buttons->insertOr(0,"ou");		
 		$buttons->getElement(0)->getOnClick("VirtualHosts/readConfig/".$virtualHosts->getId()."","#uploadExport");
 		$buttons->getElement(2)->getOnClick("VirtualHosts/exportConfig/".$virtualHosts->getId()."","#uploadExport");
-
-
-        /*$this->dispatcher->forward(array(
-                "controller" => "Index",
-                "action" => "route404"
-        ));*/
 
 		$this->view->setVar("server", $server);
 		$this->jquery->exec("Prism.highlightAll();",true);
@@ -129,6 +124,7 @@ class VirtualHostsController extends ControllerBase
                 $property->getName(), $property->getDescription(),
                 $value,($input)
                 .(new HtmlInput("id[]","hidden",$property->getId())),
+				$semantic->htmlButton("deleteButton$i","button red")->asIcon("remove")->getOnClick("VirtualHosts/deleteVirtualhostProperty/".$virtualHostProperty->getIdVirtualhost()."/".$virtualHostProperty->getIdProperty()),
         	]);
 			$i=$i+1;
 		}
@@ -180,9 +176,7 @@ class VirtualHostsController extends ControllerBase
 			
 			]);
 			$i=$i+1;
-		}
-		
-		
+		}		
 		
 		$footer=$table->getFooter()->setFullWidth();
 		$footer->mergeCol(0,1);
@@ -197,6 +191,14 @@ class VirtualHostsController extends ControllerBase
 		
 		$this->jquery->change("[data-changed]","$('#'+$(this).attr('data-changed')).html('Modifié');");
 		$this->jquery->compile($this->view);
+	}
+	
+	public function deleteVirtualhostPropertyAction($idVirtualHost, $idProperty){
+		$deleteVH=Virtualhostproperty::findFirst("idVirtualhost=$idVirtualHost AND idProperty=$idProperty");
+		$deleteVH->delete();
+
+		exit(header("Location: http://test.com"));
+		return $this->response->redirect("http://www.test.com",TRUE);
 	}
 	
 	public function updateConfigAction(){

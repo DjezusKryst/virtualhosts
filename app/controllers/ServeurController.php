@@ -117,6 +117,7 @@ class ServeurController extends ControllerBase{
 		
 		$test=$semantic->htmlButton("ajouter","Ajouter un serveur","black")->getOnClick("Serveur/vUpdate","#divAction")->setNegative();
 		echo $test;
+		
 		$this->jquery->exec("$('#lst-hosts .item').removeClass('active');",true);
 		$this->jquery->exec("$('[data-ajax=".$idHost."]').addClass('active');",true);
 		$list->setInverted()->setDivided()->setRelaxed();
@@ -337,6 +338,7 @@ class ServeurController extends ControllerBase{
 		
 			
 			}
+			
 			$semantic=$this->semantic;
 			
 			$title=$semantic->htmlHeader("header1",2);
@@ -352,6 +354,11 @@ class ServeurController extends ControllerBase{
 			
 			echo $table;
 			echo "<br/> <br/>";
+			
+
+			$form=$semantic->htmlForm("frmDelete");
+				
+			$form->addButton("cancel", "Retour ","ui blue button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 			
 			/*
 			 * 
@@ -463,14 +470,13 @@ class ServeurController extends ControllerBase{
 		
 		$form->addDropdown("server",$items,"Nom du serveur associé : ","Selectionner un  serveur ...",false)->labeledToCorner("asterisk","right");
 		
-		
 			
 		$form->addButton("submit", "Valider","ui green button");
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
 		$form->addErrorMessage();
 
-		$form->submitOnClick("submit", "Serveur/vAddSubmit", "#divAction");
+		$form->submitOnClick("submit", "Serveur/vAddSubmitvirtual/", "#divAction");
 			
 		$this->jquery->compile($this->view);
 		
@@ -552,12 +558,14 @@ class ServeurController extends ControllerBase{
 	
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
+		$form->addButton("return", "Retour ","ui blue button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
+			
+		
 		$form->addErrorMessage();
 		
 		$form->submitOnClick("submit", "Serveur/Ajouter/", "#divAction");
 		
 		$this->jquery->compile($this->view);
-
 		
 		
 	}
@@ -578,7 +586,6 @@ class ServeurController extends ControllerBase{
 			$virtualhost->setConfig($_POST["config"]);
 			
 			$server->setIdHost($host->getId());
-			
 			$virtualhost->setIdServer($server->getId());
 		
 			$virtualhost->save();

@@ -79,8 +79,13 @@ class VirtualHostsController extends ControllerBase
 		$buttons->insertOr(0,"ou");		
 		$buttons->getElement(0)->getOnClick("VirtualHosts/readConfig/".$virtualHosts->getId()."","#uploadExport");
 		$buttons->getElement(2)->getOnClick("VirtualHosts/exportConfig/".$virtualHosts->getId()."","#uploadExport");
-		
-		
+
+
+        /*$this->dispatcher->forward(array(
+                "controller" => "Index",
+                "action" => "route404"
+        ));*/
+
 		$this->view->setVar("server", $server);
 		$this->jquery->exec("Prism.highlightAll();",true);
 		$this->jquery->compile($this->view);
@@ -119,12 +124,12 @@ class VirtualHostsController extends ControllerBase
 			$value=$virtualHostProperty->getValue();
 			$input=new HtmlInput("value[]","text",$value,"Nouvelle valeur");
 			$input->setProperty("data-changed", "label$i");
-			$table->addRow([$semantic->htmlLabel("label$i","État"),
-					$property->getName(), $property->getDescription(),
-					$value,($input)
-					.(new HtmlInput("id[]","hidden",$property->getId())),
-					
-			]);	
+			$table->addRow([
+			    $semantic->htmlLabel("label$i","État"),
+                $property->getName(), $property->getDescription(),
+                $value,($input)
+                .(new HtmlInput("id[]","hidden",$property->getId())),
+        	]);
 			$i=$i+1;
 		}
 	

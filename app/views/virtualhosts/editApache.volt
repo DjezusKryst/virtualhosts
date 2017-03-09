@@ -4,7 +4,9 @@
 
 
 <form id="frmConfig">
-{{ q["div-idvh"] }}
+{% if q["div-idvh"] is defined %}
+    {{ q["div-idvh"] }}
+{% endif %}
 {{ q["s-infos"] }}
 
 </form>

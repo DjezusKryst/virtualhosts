@@ -14,4 +14,9 @@ class GenerateConfig{
         $properties = $virtualHost->getServer()->getStype()->getStypeproperties();
         return $properties;
     }
+
+    public static function getVHProperties($virtualHost){
+        $values = $virtualHost->getVirtualhostproperties();
+        return $values;
+    }
 }

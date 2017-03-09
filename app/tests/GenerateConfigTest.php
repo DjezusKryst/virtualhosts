@@ -5,8 +5,14 @@ class GenerateConfigTest extends \UnitTestCase {
         $config = GenerateConfig::getServerConfigTemplate(Virtualhost::findFirst());
         $this->assertNotNull($config);
     }
+
     public function testGetVHStypeProperties(){
-        $properties = GenerateConfig::getVHStypeproperties(Virtualhost::findFirst());
+        $sTypeProperties = GenerateConfig::getVHStypeproperties(Virtualhost::findFirst());
+        $this->assertNotNull($sTypeProperties);
+    }
+
+    public function testGetVHProperties(){
+        $properties = GenerateConfig::getVHProperties(Virtualhost::findFirst());
         $this->assertNotNull($properties);
     }
 }

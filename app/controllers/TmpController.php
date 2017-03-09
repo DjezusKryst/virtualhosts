@@ -3,9 +3,6 @@
 use Ajax\semantic\html\elements\HtmlButtonGroups;
 use Ajax\semantic\html\elements\HtmlButton;
 class TmpController extends ControllerBase{
-
-
-
 	public function indexAction(){
 		$this->loadMenus();
 		$semantic=$this->semantic;

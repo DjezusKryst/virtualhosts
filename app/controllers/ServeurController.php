@@ -58,7 +58,7 @@ class ServeurController extends ControllerBase{
 				
 				$list->setSelection();
 
-		$this->jquery->getOnClick("#lst-hosts .item","Serveur/servers","#servers",["attr"=>"data-ajax"]);
+		$this->jquery->getOnClick("#lst-hosts .item","Serveur/servers","#divAction",["attr"=>"data-ajax"]);
 		$this->jquery->compile($this->view);
 		
 	}
@@ -72,8 +72,6 @@ class ServeurController extends ControllerBase{
 		
 		
 		$semantic=$this->semantic;
-		
-		
 		
 		$table=$semantic->htmlTable('table4',0,7);
 		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Afficher virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
@@ -355,6 +353,11 @@ class ServeurController extends ControllerBase{
 			echo $table;
 			echo "<br/> <br/>";
 			
+			/*
+			 * 
+			 */
+			
+			
 			$this->jquery->exec("$('#divAction .item').removeClass('active');",true);
 			$this->jquery->exec("$('[data-ajax=".$idhost."]').addClass('active');",true);
 			$list->setInverted()->setDivided()->setRelaxed();
@@ -554,6 +557,7 @@ class ServeurController extends ControllerBase{
 		$form->submitOnClick("submit", "Serveur/Ajouter/", "#divAction");
 		
 		$this->jquery->compile($this->view);
+
 		
 		
 	}

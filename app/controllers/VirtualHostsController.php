@@ -107,7 +107,7 @@ class VirtualHostsController extends ControllerBase
 		
 		
 		$table=$semantic->htmlTable("s-infos",0,6);
-		$table->setHeaderValues(["","Nom","Description","Valeur actuelle","Nouvelle valeur"]);
+		$table->setHeaderValues(["","Nom","Description","Valeur actuelle","Nouvelle valeur","Suppr."]);
 		
 		$i=0;
 		
@@ -196,9 +196,6 @@ class VirtualHostsController extends ControllerBase
 	public function deleteVirtualhostPropertyAction($idVirtualHost, $idProperty){
 		$deleteVH=Virtualhostproperty::findFirst("idVirtualhost=$idVirtualHost AND idProperty=$idProperty");
 		$deleteVH->delete();
-
-		exit(header("Location: http://test.com"));
-		return $this->response->redirect("http://www.test.com",TRUE);
 	}
 	
 	public function updateConfigAction(){

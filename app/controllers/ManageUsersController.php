@@ -137,26 +137,28 @@ class ManageUsersController extends ControllerBase
 	    	$user=User::findFirst("id='$a'");
 	    	
 	    	$form=$semantic->htmlForm("frmDelete");
-	    		
+	    	$form->setValidationParams(["on"=>"blur","inline"=>true]);
 	    	$form->addHeader("Voulez-vous vraiment supprimer l'utilisateur : ". $user->getFirstname()." ".$user->getName()."?",3);
 	    	$form->addInput("id",NULL,"hidden",$a);
-	    	$form->addInput("name","Nom","text",NULL,"Entrez le nom de l'utilisateur pour confirmer la suppression");
-	    	$form->addButton("submit", "Supprimer","button red")->postFormOnClick("manageUsers/confirmDelete", "frmDelete","#result");
-	    		
-	    	
+	    	$form->addInput("name","Entrez le nom de l'utilisateur pour confirmer la suppression","text")->addRule(["empty","Ce champ est obligatoire"]);
+	    			    	
 	    	$this->view->setVars(["element"=>$user]);
 	    	
+	    	$form->addButton("submit","Supprimer l'utilisateur")->asSubmit()->setColor("red");
+	    	$form->submitOn("click","submit","manageUsers/confirmDelete","#result");
+	    	$form->addErrorMessage();
 	    	$this->jquery->compile($this->view);
     }
     
     public function confirmDeleteAction(){
     	$deleteUser = User::findFirst($_POST['id']);
-    		
+    	$this->view->setVar("deleteStatut","Le nom ne correspond pas.");
+    	
     	if($deleteUser->getFirstname()." ".$deleteUser->getName() == $_POST['name']){
     		$deleteUser->delete();
+    		$this->view->setVar("deleteStatut","L'utilisateur a bien été supprimé.");
     		$this->jquery->compile($this->view);
-    		
-
+			
     	}
     }
 

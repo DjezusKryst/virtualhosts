@@ -1,2 +1,2 @@
 </br>
-<h2>Suppression effectuée avec succès !</h2>
+<h2>{{ deleteStatut }}</h2>

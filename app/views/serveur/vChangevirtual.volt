@@ -3,5 +3,6 @@
 {{ title1 }}
      {{ q["frmUpdate"] }}
 </div>
+* Champs Obligatoires
 </div>
 {{ script_foot }}

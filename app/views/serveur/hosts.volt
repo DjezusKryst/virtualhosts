@@ -13,8 +13,9 @@
         
         
         {{ q["lst-hosts"] }}
+        <br/>        <br/>
         
-        <div id="servers" class="ui segment"></div>
+        
         <div id="divAction"></div>
     </div>
 </div>

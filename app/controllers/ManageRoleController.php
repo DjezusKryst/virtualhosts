@@ -98,20 +98,22 @@ class ManageRoleController extends ControllerBase
 	    	$role=Role::findFirst("name='$a'");
 	    	
 	    	$form=$semantic->htmlForm("frmDelete");
-	    		
+	    	$form->setValidationParams(["on"=>"blur","inline"=>true]);
 	    	$form->addHeader("Voulez-vous vraiment supprimer le rôle : ". $role->getName()."?",3);
 	    	$form->addInput("id",NULL,"hidden",$role->getId());
-	    	$form->addInput("name","Nom","text",NULL,"Entrez le nom du rôle pour confirmer la suppression");
-	    	$form->addButton("submit", "Supprimer","button red")->postFormOnClick("manageRole/confirmDelete", "frmDelete","#result");
-	    		
-	    	
+	    	$form->addInput("name","Entrez le nom du rôle pour confirmer la suppression","text")->addRule(["empty","Ce champ est obligatoire"]);
+	    		    	
 	    	$this->view->setVars(["element"=>$role]);
 	    	
+	    	$form->addButton("submit","Supprimer le rôle")->asSubmit()->setColor("red");
+	    	$form->submitOn("click","submit","manageRole/confirmDelete","#result");
+	    	$form->addErrorMessage();
 	    	$this->jquery->compile($this->view);
     }
     
     public function confirmDeleteAction(){
     	$deleteRole = Role::findFirst($_POST['id']);
+    	$this->view->setVar("deleteStatut","Le nom ne correspond pas.");
     	$idrole=$deleteRole->getId();
     	
     	$roleRecup = Role::findFirst(["id != '$idrole'",]);
@@ -126,9 +128,9 @@ class ManageRoleController extends ControllerBase
     			$userEdit->setIdrole($idroleRecup);
     			$userEdit->update();
     		}
-    		$i = "done";
     		
     		$deleteRole->delete();
+    		$this->view->setVar("deleteStatut","Le rôle a bien été supprimé.");
     		$this->jquery->compile($this->view);
     	}
     }

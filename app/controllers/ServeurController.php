@@ -58,7 +58,7 @@ class ServeurController extends ControllerBase{
 				
 				$list->setSelection();
 
-		$this->jquery->getOnClick("#lst-hosts .item","Serveur/servers","#servers",["attr"=>"data-ajax"]);
+		$this->jquery->getOnClick("#lst-hosts .item","Serveur/servers","#divAction",["attr"=>"data-ajax"]);
 		$this->jquery->compile($this->view);
 		
 	}
@@ -72,8 +72,6 @@ class ServeurController extends ControllerBase{
 		
 		
 		$semantic=$this->semantic;
-		
-		
 		
 		$table=$semantic->htmlTable('table4',0,7);
 		$table->setHeaderValues([" ","Nom du Serveur","Configuration","Afficher virtualhost(s)","Supprimer","Nombre Virtualhost(s)"]);
@@ -166,8 +164,8 @@ class ServeurController extends ControllerBase{
 		$form->addInput("config")->addRule(["empty","La configuration est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		
 		
-		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : * ","Selectionner un type de serveur ...",false)->addRule(["empty","Ce champ est obligatoire"]);
-		$form->addDropdown("host",$itemshost,"Host : *","Selectionner host ...",false)->addRule(["empty","Ce champ est obligatoire"]);
+		$form->addDropdown("stype",$itemsStypes,"Type Serveurs : ","Selectionner un type de serveur ...",false)->addRule(["empty","Ce champ est obligatoire"])->labeledToCorner("asterisk","right");
+		$form->addDropdown("host",$itemshost,"Host :","Selectionner host ...",false)->addRule(["empty","Ce champ est obligatoire"])->labeledToCorner("asterisk","right");
 		
 		$form->addButton("submit", "Valider","ui green button");
 		
@@ -292,7 +290,7 @@ class ServeurController extends ControllerBase{
 	
 		$virtualhosts=Virtualhost::find("idServer=".$idServer."");
 		$this->session->set("virtualhost", Virtualhost::findFirst($idServer));
-		
+		$server=Server::findFirst($idServer);
 		
 		
 		if($virtualhosts->count() == 0 ){
@@ -348,12 +346,18 @@ class ServeurController extends ControllerBase{
 			 * 
 			 */
 			
-			$title->asTitle("Liste des Virtualhost(s) pour le serveur : ","Séléctionner un virtualhost pour le supprimer et/ou le modifier");
+			$title->asTitle("Liste des Virtualhost(s) pour le serveur : ".$server->getName(),"Séléctionner un virtualhost pour le supprimer et/ou le modifier");
 			$this->view->setVar("title1", $title);
 			
 			
 			echo $table;
 			echo "<br/> <br/>";
+			
+			/*
+			 * 
+			 */
+			
+			
 			$this->jquery->exec("$('#divAction .item').removeClass('active');",true);
 			$this->jquery->exec("$('[data-ajax=".$idhost."]').addClass('active');",true);
 			$list->setInverted()->setDivided()->setRelaxed();
@@ -424,13 +428,18 @@ class ServeurController extends ControllerBase{
 		$stypes = Stype::find();
 		$servers = Server::find();
 		
+		$this->session->set("server", Server::findFirst($id));
+		
+		/*
+		 */
+		
+		$Server = Server::findFirst($id);
+		
 		$semantic=$this->semantic;
 		
 		$title=$semantic->htmlHeader("header1",2);
-		$title->asTitle("Ajout du nouveau virtualhost pour le serveur :","Créer un nouveau virtualhost avec son nom et sa configuration");
+		$title->asTitle("Ajout du nouveau virtualhost pour le serveur :".$Server->getName(),"Créer un nouveau virtualhost avec son nom et sa configuration");
 		$this->view->setVar("title1", $title);
-		
-	
 		
 		 	
 		$semantic=$this->semantic;
@@ -452,7 +461,7 @@ class ServeurController extends ControllerBase{
 		
 		$items=Ajax\service\JArray::modelArray($servers,function($c){return $c->getId();},function($c){return $c->getName();});
 		
-		$form->addDropdown("server",$items,"Nom du serveur : * ","Selectionner un  serveur ...",false);
+		$form->addDropdown("server",$items,"Nom du serveur associé : ","Selectionner un  serveur ...",false)->labeledToCorner("asterisk","right");
 		
 		
 			
@@ -530,19 +539,26 @@ class ServeurController extends ControllerBase{
 		$form=$semantic->htmlForm("frmUpdate");
 		$form->addInput("id",NULL,"hidden",$virtualhosts->getId());
 
-		$form->addInput("name","Changer de nom de virtualhost :")->setValue($virtualhosts->getName());	
-		$form->addInput("config","Changer la configuration du virtualhost :")->setValue($virtualhosts->getConfig());
+		$form->addInput("name","Changer de nom de virtualhost :")->addRule(["empty","Le changement de nom est obligatoire"])->setValue($virtualhosts->getName());	
+		$form->addInput("config","Changer la configuration du virtualhost :")->addRule(["empty","La configuration est obligatoire"])->setValue($virtualhosts->getConfig());
 		
-		$form->addDropdown("host",$itemhost,"Nom du nouveau host :  ","Nouveau host...",false);
+		$host = $this->session->get("host");
+		$form->addDropdown("host",$itemhost,"Nom du nouveau host :  ",$host->getId(),false)->labeledToCorner("asterisk","right");
 
-		$form->addDropdown("server",$itemservers,"Nom du serveur :  ","Selectionner un nom de serveur...",false);
+		$form->addDropdown("server",$itemservers,"Nom du serveur :  ","Selectionner un nom de serveur...",false)->labeledToCorner("asterisk","right");
 		
 		
-		$form->addButton("submit", "Valider","ui positive button")->postFormOnClick($this->controller."/Ajouter", "frmUpdate","#divAction");
+		$form->addButton("submit", "Valider","ui positive button");
 	
 		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
 		
+		$form->addErrorMessage();
+		
+		$form->submitOnClick("submit", "Serveur/Ajouter/", "#divAction");
+		
 		$this->jquery->compile($this->view);
+
+		
 		
 	}
 	

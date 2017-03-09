@@ -124,7 +124,7 @@ class VirtualHostsController extends ControllerBase
                 $property->getName(), $property->getDescription(),
                 $value,($input)
                 .(new HtmlInput("id[]","hidden",$property->getId())),
-				$semantic->htmlButton("deleteButton$i","button red")->asIcon("remove")->getOnClick("VirtualHosts/deleteVirtualhostProperty/".$virtualHostProperty->getIdVirtualhost()."/".$virtualHostProperty->getIdProperty()),
+				$semantic->htmlButton("deleteButton$i","button red")->asIcon("remove")->getOnClick("VirtualHosts/deleteVirtualhostProperty/".$virtualHostProperty->getIdVirtualhost()."/".$virtualHostProperty->getIdProperty(),"#frmConfig"),
         	]);
 			$i=$i+1;
 		}
@@ -173,7 +173,6 @@ class VirtualHostsController extends ControllerBase
 					$getProperty->getDescription(),
 					($input)
 					.(new HtmlInput("id[]","hidden",$getProperty->getId()))
-			
 			]);
 			$i=$i+1;
 		}		
@@ -196,6 +195,7 @@ class VirtualHostsController extends ControllerBase
 	public function deleteVirtualhostPropertyAction($idVirtualHost, $idProperty){
 		$deleteVH=Virtualhostproperty::findFirst("idVirtualhost=$idVirtualHost AND idProperty=$idProperty");
 		$deleteVH->delete();
+		$this->dispatcher->forward(["controller"=>"VirtualHosts","action"=>"editApache","params"=>[$idVirtualHost]]);
 	}
 	
 	public function updateConfigAction(){
@@ -211,6 +211,7 @@ class VirtualHostsController extends ControllerBase
 			$property->save();
 			$i=$i+1;			
 		}
+		
 		echo $this->jquery->compile();
 	}
 	
@@ -222,22 +223,21 @@ class VirtualHostsController extends ControllerBase
 	//	var_dump($_POST).
 			
 		$i = 0;
+		$idVH = $_POST['idVirtualhost'];
 		foreach($_POST["id"] as $property){
 			$vhostp = new Virtualhostproperty();
 			
-			$vhostp->setIdVirtualhost($_POST['idVirtualhost']);
+			$vhostp->setIdVirtualhost($idVH);
 			$vhostp->setIdProperty($property);
 			$vhostp->setValue($_POST["value"][$i]);
 			$vhostp->save();
 			$i=$i+1;		
 		}
 		
-		
 		echo $this->jquery->compile();
 	}
 	
 	public function readConfigAction($idVirtualHost=NULL){
-		
 		$this->secondaryMenu($this->controller,$this->action);
 		$this->tools($this->controller,$this->action);
 

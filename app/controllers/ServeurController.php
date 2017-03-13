@@ -174,8 +174,6 @@ class ServeurController extends ControllerBase{
 
 		$form->addErrorMessage();
 		
-		
-		//$form->setValidationParams(["inline"=> true]);
 		$form->submitOnClick("submit", "Serveur/vAddSubmit", "#divAction");
 		
 		$host=$this->session->get("host");

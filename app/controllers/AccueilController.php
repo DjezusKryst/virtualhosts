@@ -19,15 +19,15 @@ class AccueilController extends ControllerBase
 		$form=$semantic->htmlForm("frm2");
 		$form->addErrorMessage();
 		$form->addHeader("Connexion Utilisateur :",3);
-		$form->addInput("email","Adresse")->addRule("empty","Veuillez remplir le champ adresse...");
-		$form->addInput("password","Mot de passe","password")->addRule("empty","Veuillez remplir le champ mot de passe ...");
+		$form->addInput("email","Adresse")->addRule("empty","Veuillez remplir le champ adresse...")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
+		$form->addInput("password","Mot de passe","password")->addRule("empty","Veuillez remplir le champ mot de passe ...")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		$icon=$semantic->htmlIcon("","checkmark");
-		$form->addButton("btValider","Valider")->setColor("green")->asSubmit();
-		$form->submitOn("click","btValider","Accueil/login","#suite");
-	
 		
-		
-		//echo $form;
+		$form->addButton("submit", "Valider","ui green button");
+		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
+		$form->addErrorMessage();
+		//$form->submitOnClick("submit", "Tmp/index", "#content-container");
+
 		$this->jquery->compile($this->view);
 		
 	}

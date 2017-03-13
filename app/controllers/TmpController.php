@@ -8,13 +8,13 @@ class TmpController extends ControllerBase{
 		$semantic=$this->semantic;
 		$grid=$semantic->htmlGrid("grid");
 		$grid->setStretched()->setCelled(true);
-		$grid->addRow(2)->setValues(["Vincent",$this->createBts("vincent",["Serveurs"=>"/serveur/hosts"],"green")]);
-		$grid->addRow(2)->setValues(["Yann",$this->createBts("yann",[" ☠ Connexion ☠ "=>"Accueil/connect"," ☠ Reload config ☠ "=>"Config/index"],"black")]);
-		$grid->addRow(2)->setValues(["Thomas",$this->createBts("thomas",["Config virtualhost"=>"VirtualHosts/config"],"green")]);
-		$grid->addRow(2)->setValues(["Edouard",$this->createBts("ed",["☠ Gest. rôles ☠ "=>"ManageRole/index"," ☠ Gest. utilisateurs ☠ "=>"ManageUsers/index"],"black")]);
-		$grid->addRow(2)->setValues(["Romain",$this->createBts("romain",[" ☠ Infos compte ☠"=>"InfoCompte/ModifInfo"],"black")]);
-		$grid->addRow(2)->setValues(["Anthony",$this->createBts("anthony",[" ☠ S'enregistrer ☠"=>"Sign/Signin","☠ Liste hosts & virtualhost ☠"=>"☠ Listhostvirtual/listhv ☠ ","☠ Liste vh/server☠ "=>"ListVirtualhostParServ/listServer"],"black")]);
-		$grid->addRow(2)->setValues(["Aboudou",$this->createBts("aboudou",["Gest. types servers"=>"TypeServers/index","Gest. types propriétés"=>"TypeProperty/index","Gest. propriétés"=>"Property/index"],"green")]);
+		$grid->addRow(2)->setValues(["Administration d'un serveur :  ",$this->createBts("vincent",["Serveurs"=>"/serveur/hosts"],"green")]);
+		$grid->addRow(2)->setValues(["Configuration d'un utilisateur : ",$this->createBts("yann",[" ☠ Connexion ☠ "=>"Accueil/connect"," ☠ Reload config ☠ "=>"Config/index"],"black")]);
+		$grid->addRow(2)->setValues(["Configuration d'un virtualhost : ",$this->createBts("thomas",["Config virtualhost"=>"VirtualHosts/config"],"green")]);
+		$grid->addRow(2)->setValues(["Gestion des Utilisateur : ",$this->createBts("ed",["☠ Gest. rôles ☠ "=>"ManageRole/index"," ☠ Gest. utilisateurs ☠ "=>"ManageUsers/index"],"black")]);
+		$grid->addRow(2)->setValues(["Information sur le compte : ",$this->createBts("romain",[" ☠ Infos compte ☠"=>"InfoCompte/ModifInfo"],"black")]);
+		$grid->addRow(2)->setValues(["Liste des virtualhosts : ",$this->createBts("anthony",[" ☠ S'enregistrer ☠"=>"Sign/Signin","☠ Liste hosts & virtualhost ☠"=>"☠ Listhostvirtual/listhv ☠ ","☠ Liste vh/server☠ "=>"ListVirtualhostParServ/listServer"],"black")]);
+		$grid->addRow(2)->setValues(["Gestion des propriété des server(s)",$this->createBts("aboudou",["Gest. types servers"=>"TypeServers/index","Gest. types propriétés"=>"TypeProperty/index","Gest. propriétés"=>"Property/index"],"green")]);
 		$this->jquery->getOnClick(".clickable", "","#content-container",["attr"=>"data-ajax"]);
 		$this->jquery->compile($this->view);
 	}

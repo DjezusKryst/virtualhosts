@@ -9,14 +9,12 @@ class IndexController extends ControllerBase{
     	$this->tools($this->controller,$this->action);
 
     	$semantic=$this->semantic;
-    	$button=$semantic->htmlButton("btAfficher","Afficher message")->setColor("red");
-    	$message=$semantic->htmlMessage("message1","<b>Cliquer</b> sur le bouton...");
-    	$button->onClick($message->jsHtml("Click sur bouton"));
-		$semantic->htmlButton("btApache","Apache file","green")->getOnClick("Index/readApache","#file");
-		$semantic->htmlButton("btNginx","NginX file","black")->getOnClick("Index/readNginX","#file");
-		$semantic->htmlButton("btTmp","Accès aux US","purple")->getOnClick("Tmp/index","#file");
-		$btEx=$semantic->htmlButton("btEx","Test des échanges client/serveur")->getOnClick("ServerExchange/index","#file");
-		$btEx->addLabel("New");
+    	//$button=$semantic->htmlButton("btAfficher","Afficher message")->setColor("red");
+		//$semantic->htmlButton("btApache","Apache file","green")->getOnClick("Index/readApache","#file");
+		//$semantic->htmlButton("btNginx","NginX file","black")->getOnClick("Index/readNginX","#file");
+		$semantic->htmlButton("btTmp","Connexion à l'application ","purple")->getOnClick("Accueil/connect","#file");
+		//$btEx=$semantic->htmlButton("btEx","Test des échanges client/serveur")->getOnClick("ServerExchange/index","#file");
+		//$btEx->addLabel("New");
 
 		$this->jquery->compile($this->view);
     }

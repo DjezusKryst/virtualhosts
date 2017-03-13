@@ -1,12 +1,13 @@
 <div class="page-header">
-    <h1>Congratulations!</h1>
+    <h1>Bienvenue sur l'application Licorniènne !</h1>
 </div>
 
-<p>You're now flying with Phalcon. Great things are about to happen!</p>
+<p>Vous êtes maintenant avec les licornes. </p>
 
-<p>This page is located at <code>views/index/index.volt</code></p>
+<p>Cette page est localisé à l'adresse suivante :  <code>views/index/index.volt</code></p>
 
 <div id="file"></div>
 
-{{ q["btAfficher"] }} {{ q["btApache"] }} {{ q["btNginx"] }} {{ q["btTmp"] }} {{ q["btEx"] }}
-{{ q["message1"] }}
+<br />
+
+{{ q["btTmp"] }} 

@@ -24,9 +24,9 @@ class AccueilController extends ControllerBase
 		$icon=$semantic->htmlIcon("","checkmark");
 		
 		$form->addButton("submit", "Valider","ui green button");
-		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Serveur/hosts", "frmDelete","#tab");
-		$form->addErrorMessage();
-		//$form->submitOnClick("submit", "Tmp/index", "#content-container");
+		$form->addButton("cancel", "Annuler","ui red button")->postFormOnClick("Accueil/connect", "frmDelete","#tab");
+		//$form->addErrorMessage();
+		$form->submitOnClick("submit", "Tmp/index", "#content-container");
 
 		$this->jquery->compile($this->view);
 		

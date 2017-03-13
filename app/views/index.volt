@@ -18,11 +18,11 @@
 		<div class="ui container">
 			<div class="ui menu secondary">
 				<div class="header item">
-					<i class="snapchat ghost big link icon"></i>
-					Virtualhosts
+					<img src="licorne.png" >
+					
 				</div>
 				<a class="item">Features</a> <a class="item">Testimonials</a> <a
-					class="item">Sign-in</a>
+					class="item">Contactez-nous !</a>
 			</div>
 		</div>
 	</header>
@@ -40,8 +40,7 @@
 	<footer>
 		<div class="ui container">Mentions légales :
 			<ul>
-				<li><a href="https://phalconphp.com/fr/">© 2016 phalcon 3.0</a></li>
-				<li><a href="http://phpmv-ui.kobject.net/">© 2016 phpMv-UI 2.0</a></li>
+				<h5> La licorne appartient à GITHUB ! </h5>
 			</ul>
 		</div>
 	</footer>

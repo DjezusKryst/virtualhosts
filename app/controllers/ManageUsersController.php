@@ -83,7 +83,11 @@ class ManageUsersController extends ControllerBase
     	$userEdit->setIdrole($idrole);
     	$userEdit->update();
     		
-    	$this->jquery->compile($this->view);
+    	$this->flash->message("success","L'utilisateur a bien été modifié.");
+    	$this->jquery->get($this->controller,"#refresh");
+    	
+    	echo $this->jquery->compile();
+    	//$this->jquery->compile($this->view);
     }
     
     public function addUserAction(){
@@ -127,8 +131,11 @@ class ManageUsersController extends ControllerBase
 	    	$newUser->setIdrole($idrole);
 	    	$newUser->create();
 
+	    	$this->flash->message("success","L'utilisateur a bien été ajouté.");
+	    	$this->jquery->get($this->controller,"#refresh");
 	    	
-	    	$this->jquery->compile($this->view);
+	    	echo $this->jquery->compile();
+	    	//$this->jquery->compile($this->view);
     }
     
     public function deleteUserAction($a=NULL){
@@ -145,19 +152,26 @@ class ManageUsersController extends ControllerBase
 	    	$this->view->setVars(["element"=>$user]);
 	    	
 	    	$form->addButton("submit","Supprimer l'utilisateur")->asSubmit()->setColor("red");
-	    	$form->submitOn("click","submit","manageUsers/confirmDelete","#result");
+	    	$form->submitOn("click","submit","manageUsers/confirmDelete","#divAction");
 	    	$form->addErrorMessage();
 	    	$this->jquery->compile($this->view);
     }
     
     public function confirmDeleteAction(){
     	$deleteUser = User::findFirst($_POST['id']);
-    	$this->view->setVar("deleteStatut","Le nom ne correspond pas.");
+    	//$this->view->setVar("deleteStatut","Le nom ne correspond pas.");
     	
     	if($deleteUser->getFirstname()." ".$deleteUser->getName() == $_POST['name']){
     		$deleteUser->delete();
-    		$this->view->setVar("deleteStatut","L'utilisateur a bien été supprimé.");
-    		$this->jquery->compile($this->view);
+    		//$this->view->setVar("deleteStatut","L'utilisateur a bien été supprimé.");
+    		
+    		$this->flash->message("error","L'utilisateur a bien été supprimé.");
+    		$this->jquery->get($this->controller,"#refresh");
+    		
+    		echo $this->jquery->compile();
+    		//$this->dispatcher->forward(["controller"=>"ManageUsers","action"=>"index"]);
+    		//$this->response->redirect("ManageUsers");
+    		//$this->view->disable();
 			
     	}
     }

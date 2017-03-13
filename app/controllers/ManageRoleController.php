@@ -50,7 +50,7 @@ class ManageRoleController extends ControllerBase
 			$form->addInput("id","","hidden",$roleEdit->getId());
 			$form->addInput("name","Nom","text",$a)->addRule(["empty","Ce champ est obligatoire"]);
 			
-			$form->addButton("submit","Modifier le rôle")->asSubmit();
+			$form->addButton("submit","Modifier le rôle")->asSubmit()->setColor("green");
 			$form->submitOn("click","submit","ManageRole/majRole","#result");
 			$form->addErrorMessage();
 			$this->jquery->compile($this->view);
@@ -65,7 +65,11 @@ class ManageRoleController extends ControllerBase
     	$roleEdit->setName($nom);
     	$roleEdit->update();
     		
-    	$this->jquery->compile($this->view);
+    	$this->flash->message("success","Le rôle a bien été modifié.");
+    	$this->jquery->get($this->controller,"#refresh");
+    	 
+    	echo $this->jquery->compile();
+    	//$this->jquery->compile($this->view);
     }
     
     public function addRoleAction(){
@@ -89,7 +93,11 @@ class ManageRoleController extends ControllerBase
 	    	$newRole->setName($nom);
 	    	$newRole->create();
 	    	
-	    	$this->jquery->compile($this->view);
+	    	$this->flash->message("success","Le rôle a bien été ajouté.");
+	    	$this->jquery->get($this->controller,"#refresh");
+	    	
+	    	echo $this->jquery->compile();
+	    	//$this->jquery->compile($this->view);
     }
     
     public function deleteRoleAction($a=NULL){
@@ -113,7 +121,6 @@ class ManageRoleController extends ControllerBase
     
     public function confirmDeleteAction(){
     	$deleteRole = Role::findFirst($_POST['id']);
-    	$this->view->setVar("deleteStatut","Le nom ne correspond pas.");
     	$idrole=$deleteRole->getId();
     	
     	$roleRecup = Role::findFirst(["id != '$idrole'",]);
@@ -130,8 +137,12 @@ class ManageRoleController extends ControllerBase
     		}
     		
     		$deleteRole->delete();
-    		$this->view->setVar("deleteStatut","Le rôle a bien été supprimé.");
-    		$this->jquery->compile($this->view);
+    		
+    		$this->flash->message("error","Le rôle a bien été supprimé.");
+    		$this->jquery->get($this->controller,"#refresh");
+    		
+    		echo $this->jquery->compile();
+    		//$this->jquery->compile($this->view);
     	}
     }
 

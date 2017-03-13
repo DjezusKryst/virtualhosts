@@ -1,4 +1,3 @@
-
 <div id="index">
 
 	<div id="divAction"></div>

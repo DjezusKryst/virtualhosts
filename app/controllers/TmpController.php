@@ -11,16 +11,33 @@ class TmpController extends ControllerBase{
 		$title->asTitle("Liste des services Licornien","Une licorne se chargera de vous servir selon vos besoins.");
 		$this->view->setVar("title1", $title);
 		
+		$machines = Host::find();
+		$count = 0;
+		foreach ($machines as $machine){
+			$count += 1;
+		}
+		
+		$server = Server::find();
+		$count2 = 0;
+		foreach ($server as $servers){
+			$count2 += 1;
+		}
+		
+		$virtualhostt = Virtualhost::find();
+		$count3 = 0;
+		foreach ($virtualhostt as $virtualhostts){
+			$count3 += 1;
+		}
 		
 		$grid=$semantic->htmlGrid("grid");
 		$grid->setStretched()->setCelled(true);
-		$grid->addRow(2)->setValues(["Administration d'un serveur :  ",$this->createBts("vincent",["Serveurs"=>"/serveur/hosts"],"green")]);
-		$grid->addRow(2)->setValues(["Configuration d'un utilisateur(s) : ",$this->createBts("yann",[" ☠ Reload config ☠ "=>"Config/index"],"black")]);
-		$grid->addRow(2)->setValues(["Configuration d'un virtualhost : ",$this->createBts("thomas",["Config virtualhost"=>"VirtualHosts/config"],"green")]);
-		$grid->addRow(2)->setValues(["Gestion des utilisateurs : ",$this->createBts("ed",["☠ Gest. rôles ☠ "=>"ManageRole/index"," ☠ Gest. utilisateurs ☠ "=>"ManageUsers/index"],"black")]);
-		$grid->addRow(2)->setValues(["Information sur le compte : ",$this->createBts("romain",[" ☠ Infos compte ☠"=>"InfoCompte/ModifInfo"],"black")]);
-		$grid->addRow(2)->setValues(["Liste des virtualhosts : ",$this->createBts("anthony",[" ☠ S'enregistrer ☠"=>"Sign/Signin","☠ Liste hosts & virtualhost ☠"=>"☠ Listhostvirtual/listhv ☠ ","☠ Liste vh/server☠ "=>"ListVirtualhostParServ/listServer"],"black")]);
-		$grid->addRow(2)->setValues(["Gestion des propriété des serveur(s)",$this->createBts("aboudou",["Gest. types servers"=>"TypeServers/index","Gest. types propriétés"=>"TypeProperty/index","Gest. propriétés"=>"Property/index"],"green")]);
+		$grid->addRow(2)->setValues([$this->createBts("vincent",["Administration d'un serveur "=>"/serveur/hosts"],""),"Il y a actuellement $count machines avec $count2 serveur(s) et $count3 virtualhost(s). "]);
+		$grid->addRow(2)->setValues([$this->createBts("yann",["Configuration d'un utilisateur(s)"=>"Config/index"],""),""]);
+		$grid->addRow(2)->setValues([$this->createBts("thomas",["Configuration d'un virtualhost "=>"VirtualHosts/config"],""),"Vous pouvez modifier la configuration d'un virtualhost avec toute ses propriétés."]);
+		$grid->addRow(2)->setValues([$this->createBts("romain",["Information sur le compte" =>"InfoCompte/ModifInfo"],""),"Vous pouvez Modifier les paramètre du compte administrateur."]);
+		$grid->addRow(1)->setValues([$this->createBts("ed",[" Gest. rôles "=>"ManageRole/index","  Gest. utilisateurs"=>"ManageUsers/index"],"")]);
+		$grid->addRow(1)->setValues([$this->createBts("anthony",["  S'enregistrer"=>"Sign/Signin","Liste hosts & virtualhost "=>" Listhostvirtual/listhv  ","Liste vh/server "=>"ListVirtualhostParServ/listServer"],"")]);
+		$grid->addRow(1)->setValues([$this->createBts("aboudou",["Gest. types servers"=>"TypeServers/index","Gest. types propriétés"=>"TypeProperty/index","Gest. propriétés"=>"Property/index"],"")]);
 		$this->jquery->getOnClick(".clickable", "","#content-container",["attr"=>"data-ajax"]);
 		$this->jquery->compile($this->view);
 	}

@@ -30,6 +30,7 @@
 <div class="ui bottom attached tab segment" data-tab="second">
   {{ q["modifier"] }}
   {{ q["importOrExport"] }}
+  {{ q["generate"] }}
 
   <div id="uploadExport"></div>
   <div id="modification"></div>

@@ -81,10 +81,22 @@ class VirtualHostsController extends ControllerBase
 		$buttons->getElement(0)->getOnClick("VirtualHosts/readConfig/".$virtualHosts->getId()."","#uploadExport");
 		$buttons->getElement(2)->getOnClick("VirtualHosts/exportConfig/".$virtualHosts->getId()."","#uploadExport");
 
+		$semantic->htmlButton("generate","Générer config.","","VirtualHosts/GenerateConfig/".$virtualHosts->getId());
 		$this->view->setVar("server", $server);
 		$this->jquery->exec("Prism.highlightAll();",true);
 		$this->jquery->compile($this->view);
 		}
+	}
+	
+	public function generateConfigAction($idVirtualhost){
+		$config = GenerateConfig::getServerConfigTemplate($idVirtualhost);
+		//$sTypeProperties = GenerateConfig::getVHStypeproperties(Virtualhost::findFirst($idVirtualhost));
+		
+		$replaceName = str_replace('{{name}}',Virtualhost::findFirst($idVirtualhost)->getName(),$config);
+		//$replaceProperties = str_replace('{{properties}}',Virtualhost::findFirst()->get,$config);
+		
+		var_dump($replaceName);
+		$this->view->disable();
 	}
 	
 	public function editApacheAction($idVirtualhost=NULL){
@@ -219,8 +231,6 @@ class VirtualHostsController extends ControllerBase
 		$this->jquery->exec("$('#info').show();",true);
 		
 		echo "Mise à jour des propriétés effectuées !";
-
-	//	var_dump($_POST).
 			
 		$i = 0;
 		$idVH = $_POST['idVirtualhost'];

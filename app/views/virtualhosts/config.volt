@@ -20,6 +20,7 @@
 
 <br />
 {{ title2 }}
+{{ dump(virtualHost.getConfig()) }}
   <pre>
   {{ q["editIcon"] }}
   	<code class="language-apacheconf">

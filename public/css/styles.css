@@ -44,3 +44,67 @@ footer {
 #content-container{
 	min-height: 650px;
 }
+
+.ui.secondary.pointing.menu .item{
+    color: #9d9d9d;
+    font-size: 14px;
+    padding-top: 18px;
+    font-weight: normal;
+}
+
+.ui.secondary.pointing.menu .active.item, .ui.secondary.pointing.menu .item:hover{
+    color: white!important;
+    font-size: 14px;
+    padding-top: 18px;
+    font-weight: normal;
+}
+
+.bs-docs-header .header{
+    background: url(../img/cloud.png) no-repeat left;
+    background-size: 150px;
+    box-sizing: border-box;
+    margin-left:0px;
+    padding-top:20px;
+    height: 180px;
+}
+
+.bs-docs-header h1 {
+    color: #DF01D7;
+    height: 45px;
+    text-align: left;
+    text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.64);
+    border: 0px none rgb(255, 255, 255);
+    font-size: normal normal 500 normal 60px/60px 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-variant: small-caps;
+    outline: rgb(255, 255, 255) none 0px;
+    padding-left :200px;
+    padding-top: 25px;
+}
+
+.bs-docs-header p{
+    color: #F0F1F1;
+    font-weight: 200;
+    font-size: 18px;
+    font-stretch: ultra-expanded;
+    text-shadow: 1px 1px 1px rgba(150, 150, 150, 0.24);
+    font-variant: small-caps;
+    padding-left :200px;
+    padding-top: 15px;
+}
+
+.bs-docs-header {
+    box-sizing: border-box;
+    color: rgb(129, 181, 221);
+    height: 175px;
+    position: relative;
+    text-align: left;
+    text-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 0px;
+    perspective-origin: 950.5px 128px;
+    transform-origin: 950.5px 128px;
+    background-color: #373743;
+    border: 0px none rgb(205, 191, 227);
+    font: normal normal normal normal 24px/34.2857170104981px 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
+    margin: 0px 0px 2px;
+    outline: rgb(205, 191, 227) none 0px;
+    padding: 0px 15px;
+}

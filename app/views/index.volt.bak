@@ -5,49 +5,32 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>UniHost</title>
+<title>Phalcon PHP Framework</title>
 {{stylesheet_link("https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css")}}
 {{stylesheet_link("https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism-okaidia.min.css")}}
 {{stylesheet_link("public/css/styles.css")}}
 {{javascript_include("https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js")}}
-{{stylesheet_link("public/css/bootstrap.min.css")}}
-
 
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" style="color:red;"href="/virtualhosts/">UNIHOST</a>
-    </div>
-     <div class="collapse navbar-collapse" id="myNavbar">
-    <ul class="nav navbar-nav">
-      {{ q["secondary"] }}
-    </ul>
-<ul class="nav navbar-nav navbar-right">
-       <li> </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-	<a href="../cloud/">
-	<div class="bs-docs-header" style="margin-top:50px;">
-		<div class="container">
-			<div class="header">
-			<h1><font color="#990099">U</font><font color="#a80783">n</font><font color="#b60f6d">i</font><font color="#c51657">H</font><font color="#d31d42">o</font><font color="#e2242c">s</font><font color="#f02c16">t</font></h1></a>
-				<p>One of da best virtualhosts services for Unicorns.</p>
-				<div class="clearfix"></div>
+	<header class="navbar navbar-static-top bs-docs-nav" id="top"
+		role="banner">
+		<div class="ui container">
+			<div class="ui menu secondary">
+				<div class="header item">
+					<img src="licorne.png" >
+					
+				</div>
+				<a class="item">Features</a> <a class="item">Testimonials</a> <a
+					class="item">Contactez-nous !</a>
 			</div>
 		</div>
+	</header>
+	<div class="pagehead">
+		<div id="secondary-container" class="ui container">
+			{{ q["secondary"] }}
+		</div>
 	</div>
-
-
 	<div id="main-container" class="ui container">
 		<div id="tools-container">
 			{{ q["tools"] }}

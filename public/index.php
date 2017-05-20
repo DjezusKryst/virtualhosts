@@ -37,6 +37,10 @@ try {
     echo $application->handle()->getContent();
 
 } catch (\Exception $e) {
-    echo $e->getMessage() . '<br>';
-    echo '<pre>' . $e->getTraceAsString() . '</pre>';
+    if(file_exists("installer.php")) {
+        include "installer.php";
+    }else {
+        echo $e->getMessage() . '<br>';
+        echo '<pre>' . $e->getTraceAsString() . '</pre>';
+    }
 }

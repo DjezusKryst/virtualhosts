@@ -1,20 +1,16 @@
 <?php
-/*
- * Modified: preppend directory path of current file, because of this file own different ENV under between Apache and command line.
- * NOTE: please remove this comment.
- */
 defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
 return new \Phalcon\Config([
     'database' => [
         'adapter'     => 'Mysql',
-        'host'        => 'localhost',
+        'host'        => '127.0.0.1',
         'username'    => 'root',
         'password'    => '',
         'dbname'      => 'virtualhosts',
         'charset'     => 'utf8',
-    	'port'        => '3306',
+        'port'        => '3306',
     ],
     'application' => [
         'appDir'         => APP_PATH . '/',
@@ -25,7 +21,7 @@ return new \Phalcon\Config([
         'pluginsDir'     => APP_PATH . '/plugins/',
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => BASE_PATH . '/cache/',
-    	'testsDir'       => APP_PATH . '/tests/',
+        'testsDir'       => APP_PATH . '/tests/',
         'baseUri'        => '/virtualhosts/',
     ]
 ]);

@@ -18,9 +18,9 @@ class AccueilController extends ControllerBase
 		$semantic->setLanguage("fr");
 		$form=$semantic->htmlForm("frm2");
 		$form->addErrorMessage();
-		$form->addHeader("Connexion Utilisateur :",3);
-		$form->addInput("email","Adresse")->addRule("empty","Veuillez remplir le champ adresse...")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
-		$form->addInput("password","Mot de passe","password")->addRule("empty","Veuillez remplir le champ mot de passe ...")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
+		$form->addHeader("Connexion",3);
+		$form->addInput("email","Adresse e-mail")->addRule("empty","Veuillez remplir le champ adresse...")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
+		$form->addInput("Mot de passe","Mot de passe","password")->addRule("empty","Veuillez remplir le champ mot de passe ...")->addRule(["empty","{name} est obligatoire"])->getField()->labeledToCorner("asterisk","right");
 		$icon=$semantic->htmlIcon("","checkmark");
 		
 		$form->addButton("submit", "Valider","ui green button");

@@ -9,7 +9,8 @@ class AccueilController extends ControllerBase
 
     public function connectAction()
     {
-        if(isset($this->session->auth)){
+        if($this->session->has("user")){
+            $username = $this->session->get("user");
             return $this->dispatcher->forward(
                 [
                     "controller" => "Tmp",
@@ -25,8 +26,8 @@ class AccueilController extends ControllerBase
             $form = $semantic->htmlForm("frm2");
             $form->addErrorMessage();
             $form->addHeader("Connexion", 3);
-            $form->addInput("email", "Adresse e-mail")->addRule("empty", "Veuillez remplir le champ adresse...")->addRule(["empty", "{name} est obligatoire"])->getField()->labeledToCorner("asterisk", "right");
-            $form->addInput("password", "Mot de passe","password","","Mot de passe")->addRule("empty", "Veuillez remplir le champ mot de passe ...")->addRule(["empty", "{name} est obligatoire"])->getField()->labeledToCorner("asterisk", "right");
+            $form->addInput("email", "Adresse e-mail","","admin@vhosts.net")->addRule("empty", "Veuillez remplir le champ adresse...")->addRule(["empty", "{name} est obligatoire"])->getField()->labeledToCorner("asterisk", "right");
+            $form->addInput("password", "Mot de passe","password","0000","Mot de passe")->addRule("empty", "Veuillez remplir le champ mot de passe ...")->addRule(["empty", "{name} est obligatoire"])->getField()->labeledToCorner("asterisk", "right");
             $icon = $semantic->htmlIcon("", "checkmark");
 
             $form->addButton("submit", "Valider", "ui green button");
@@ -69,7 +70,8 @@ class AccueilController extends ControllerBase
             );
 
             if ($user !== false) {
-                $this->_registerSession($user);
+                //$this->_registerSession($user);
+                $this->session->set("user",$user);
 
                 //Envois à la page d'acceuil si la connexion est réussis !
                 return $this->dispatcher->forward(

@@ -74,4 +74,14 @@ class SignController extends ControllerBase{
 		$user->setIdrole(2);
 		$user->save($_POST);
 	}
+
+	public function signOutAction(){
+        $this->session->remove("user");
+        return $this->dispatcher->forward(
+            [
+                "controller" => "Index",
+                "action" => "index",
+            ]
+        );
+    }
 }

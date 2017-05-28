@@ -11,7 +11,7 @@
 {{stylesheet_link("public/css/styles.css")}}
 {{javascript_include("https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js")}}
 {{stylesheet_link("public/css/bootstrap.min.css")}}
-
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
 </head>
 <body>
@@ -27,12 +27,18 @@
     </div>
      <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
+
       {{ q["secondary"] }}
     </ul>
-<ul class="nav navbar-nav navbar-right">
-       <li> </li>
-      </ul>
-    </div>
+             <ul class="nav navbar-nav navbar-right">
+                 {% if session.get('user') == null %}
+                     <li><a href="/virtualhosts/"><span class="fa fa-user-circle"></span>Connexion</a></li>
+                 {% else %}
+                     <li><a href="/virtualhosts/Sign/SignOut"><span class="fa fa-user-circle"></span> Déconnexion </a></li>
+                 {% endif %}
+             </ul>
+
+
   </div>
 </nav>
 

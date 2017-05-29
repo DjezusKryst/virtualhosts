@@ -19,8 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `virtualhosts`
 --
-CREATE DATABASE IF NOT EXISTS `virtualhosts` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `virtualhosts`;
+-- CREATE DATABASE IF NOT EXISTS `virtualhosts` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+--USE `virtualhosts`;
 
 -- --------------------------------------------------------
 

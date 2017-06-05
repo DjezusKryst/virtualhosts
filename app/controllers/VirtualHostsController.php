@@ -89,20 +89,24 @@ class VirtualHostsController extends ControllerBase
 	}
 	
 	public function generateConfigAction($idVirtualhost){
-        $this->secondaryMenu($this->controller,$this->action);
-        $this->tools($this->controller,$this->action);
-
 		$virtualHost = Virtualhost::findFirst($idVirtualhost);
 		$config = GenerateConfig::getServerConfigTemplate($virtualHost);
-        $sTypeProperties = GenerateConfig::getVHStypeproperties($virtualHost);
+        $config = str_replace('{{name}}',Virtualhost::findFirst($virtualHost)->getName(), $config);
 
-		
-		/*$replaceName = str_replace('{{name}}',Virtualhost::findFirst($virtualHost)->getName(),$config);
-		//$replaceProperties = str_replace('{{properties}}',Virtualhost::findFirst()->get,$config);
-		
-		$virtualHost->setConfig($replaceName);
+        $propertiesVH = Virtualhostproperty::find("idVirtualhost = " . $idVirtualhost);
+        $nameWithValue = "";
+
+        foreach($propertiesVH as $propertyVH){
+            $property = Property::findFirst($propertyVH->getIdProperty());
+            $nameWithValue .= "<span class='token directive-inline property'>" . $property->getName() . "</span><span class='token string'> " . $propertyVH->getValue() . "</span>\n\n";
+        }
+
+
+        $config = str_replace('{{properties}}', $nameWithValue, $config);
+
+
+		$virtualHost->setConfig($config);
 		$virtualHost->update();
-		$this->jquery->compile($this->view);*/
 	}
 	
 	public function editApacheAction($idVirtualhost=NULL){
@@ -330,7 +334,7 @@ class VirtualHostsController extends ControllerBase
 		fclose($fp);
 		
 		$semantic->htmlMessage("header","Cliquez sur le bouton ci-dessous afin d'obtenir une copie textuelle de la configuration actuelle de l'hôte virtuel.")->addHeader("Télécharger la configuration")->setIcon("download");		
-		$semantic->htmlButton("telecharger","Télécharger")->asLink("./downloadConfig/$id");
+		$semantic->htmlButton("telecharger","Télécharger")->asLink("/virtualhosts/VirtualHosts/downloadConfig/$id");
 		$this->jquery->compile($this->view);
 	}
 	

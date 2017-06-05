@@ -19,7 +19,8 @@
 </form>
 {% endif %}
 <br />
-
-{{ q["divDelete"] }}
+{% if q["divDelete"] is defined %}
+    {{ q["divDelete"] }}
+{% endif %}
 {{ javascript_include("js/jquery.tablesort.min.js") }}
 {{ script_foot }}

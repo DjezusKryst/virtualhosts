@@ -89,16 +89,20 @@ class VirtualHostsController extends ControllerBase
 	}
 	
 	public function generateConfigAction($idVirtualhost){
+        $this->secondaryMenu($this->controller,$this->action);
+        $this->tools($this->controller,$this->action);
+
 		$virtualHost = Virtualhost::findFirst($idVirtualhost);
 		$config = GenerateConfig::getServerConfigTemplate($virtualHost);
-		//$sTypeProperties = GenerateConfig::getVHStypeproperties(Virtualhost::findFirst($idVirtualhost));
+        $sTypeProperties = GenerateConfig::getVHStypeproperties($virtualHost);
+
 		
-		$replaceName = str_replace('{{name}}',Virtualhost::findFirst($virtualHost)->getName(),$config);
+		/*$replaceName = str_replace('{{name}}',Virtualhost::findFirst($virtualHost)->getName(),$config);
 		//$replaceProperties = str_replace('{{properties}}',Virtualhost::findFirst()->get,$config);
 		
 		$virtualHost->setConfig($replaceName);
 		$virtualHost->update();
-		$this->jquery->compile($this->view);
+		$this->jquery->compile($this->view);*/
 	}
 	
 	public function editApacheAction($idVirtualhost=NULL){
@@ -124,7 +128,7 @@ class VirtualHostsController extends ControllerBase
 		$table->setHeaderValues(["","Nom","Description","Valeur actuelle","Nouvelle valeur","Suppr."]);
 		
 		$i=0;
-		
+
 		$tableau1 = array();
 		foreach ($virtualHostProperties as $virtualHostProperty){
 			$property=$virtualHostProperty->getProperty();
@@ -147,7 +151,7 @@ class VirtualHostsController extends ControllerBase
 		$footer->mergeCol(0,1);
 		$bt=HtmlButton::labeled("submit","Valider","settings");
 		$bt->setFloated("right")->setColor('blue');
-		$bt->postFormOnClick("VirtualHosts/updateConfig", "frmConfig","#info");
+		$bt->postFormOnClick("VirtualHosts/updateConfig/$idVirtualhost", "frmConfig","#info");
 		$footer->getCell(0,1)->setValue([$bt]);
 		$semantic->htmlInput("idvh","hidden",$idVirtualhost);
 		
@@ -212,13 +216,12 @@ class VirtualHostsController extends ControllerBase
 		$this->dispatcher->forward(["controller"=>"VirtualHosts","action"=>"editApache","params"=>[$idVirtualHost]]);
 	}
 	
-	public function updateConfigAction(){
+	public function updateConfigAction($idVH){
 		$this->jquery->exec("$('#info').show();",true);
 
 		echo "Mise à jour des propriétés effectuées !";
 
-		$i = 0;	
-		$idVH=$_POST["idvh"];
+		$i = 0;
 		foreach($_POST["id"] as $property){	
 			$property=Virtualhostproperty::findFirst("idVirtualhost=$idVH AND idProperty=$property");
 			$property->setValue($_POST["value"][$i]);

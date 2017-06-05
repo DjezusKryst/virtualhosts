@@ -69,11 +69,11 @@ class AccueilController extends ControllerBase
                 ]
             );
 
-            if ($user !== false) {
+            if ($user == true) {
                 //$this->_registerSession($user);
                 $this->session->set("user",$user);
 
-                //Envois à la page d'acceuil si la connexion est réussis !
+                //Envoi à la page d'acceuil si la connexion est réussie !
                 return $this->dispatcher->forward(
                     [
                         "controller" => "Tmp",
@@ -82,7 +82,7 @@ class AccueilController extends ControllerBase
                 );
             }else{
                 $this->flash->error(
-                    "Mauvais mot de passe ou Email ...."
+                    "Mauvais mot de passe ou adresse e-mail ...."
                 );
             }
         }

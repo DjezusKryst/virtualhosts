@@ -37,7 +37,12 @@ class ServeurController extends ControllerBase{
 	
 	public function hostsAction($user=NULL){
 		$this->loadMenus();
-		$hosts=Host::find();
+
+		if(isset($user)){
+		    $hosts = Host::find("idUser=".$user);
+        }else{
+            $hosts=Host::find();
+        }
 		
 		
 		$semantic=$this->semantic;

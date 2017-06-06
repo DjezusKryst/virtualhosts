@@ -38,6 +38,13 @@ class TmpController extends ControllerBase{
 		$grid->addRow(1)->setValues([$this->createBts("ed",[" Gest. rôles "=>"ManageRole/index","  Gest. utilisateurs"=>"ManageUsers/index"],"")]);
 		$grid->addRow(1)->setValues([$this->createBts("anthony",["  S'enregistrer"=>"Sign/Signin","Liste hosts & virtualhost "=>" Listhostvirtual/listhv  ","Liste vh/server "=>"ListVirtualhostParServ/listServer"],"")]);
 		$grid->addRow(1)->setValues([$this->createBts("aboudou",["Gest. types servers"=>"TypeServers/index","Gest. types propriétés"=>"TypeProperty/index","Gest. propriétés"=>"Property/index"],"")]);
+
+
+
+
+
+		$grid->addRow(2)->setValues([$this->createBts("thomas",["Acces a mon portefeuille "=>"ManagePortefeuille"],""),"Accédez à votre portefeuille."]);
+
 		$this->jquery->getOnClick(".clickable", "","#content-container",["attr"=>"data-ajax"]);
 		$this->jquery->compile($this->view);
 	}

@@ -57,6 +57,13 @@ class User extends \Phalcon\Mvc\Model
      * @var integer
      * @Column(type="integer", length=11, nullable=false)
      */
+    protected $idPortefeuille;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=11, nullable=false)
+     */
     protected $idrole;
 
     /**
@@ -218,6 +225,16 @@ class User extends \Phalcon\Mvc\Model
     public function getIdrole()
     {
         return $this->idrole;
+    }
+
+    /**
+     * Returns the value of field idportefeuille
+     *
+     * @return integer
+     */
+    public function getIdPortefeuille()
+    {
+        return $this->idPortefeuille;
     }
 
     /**
